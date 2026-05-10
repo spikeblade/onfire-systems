@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.output/
+.netlify/
+
+# Environment variables — NUNCA subir al repo
+.env
+.env.local
+
+# Astro
+.astro/
+
+# OS
+.DS_Store
+Thumbs.db

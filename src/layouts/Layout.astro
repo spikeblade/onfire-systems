@@ -1,0 +1,72 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  page?: string
+}
+const { title, page } = Astro.props
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+</head>
+<body>
+  <div class="color-bar"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="/" class="logo">
+      <div class="logo-bar"></div>
+      <div class="logo-text">
+        <span class="t1">on</span><span class="t2">fire</span>
+        <span class="t6">systems</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/servicios" class={page === 'servicios' ? 'active' : ''}>Servicios</a></li>
+      <li><a href="/nosotros" class={page === 'nosotros' ? 'active' : ''}>Nosotros</a></li>
+      <li><a href="/proceso" class={page === 'proceso' ? 'active' : ''}>Proceso</a></li>
+      <li><a href="/contacto" class={`nav-cta${page === 'contacto' ? ' active' : ''}`}>Contáctenos</a></li>
+    </ul>
+  </nav>
+
+  <slot />
+
+  <footer>
+    <p class="footer-copy">© 2025 OnFire Systems — 7 años construyendo tecnología. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="/" class={page === 'home' ? 'active' : ''}>Inicio</a>
+      <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor')!
+    const ring = document.getElementById('cursorRing')!
+    let mx = 0, my = 0, rx = 0, ry = 0
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY
+      cursor.style.left = mx + 'px'
+      cursor.style.top = my + 'px'
+    })
+    ;(function loop() {
+      rx += (mx - rx) * 0.12
+      ry += (my - ry) * 0.12
+      ring.style.left = rx + 'px'
+      ring.style.top = ry + 'px'
+      requestAnimationFrame(loop)
+    })()
+    document.querySelectorAll('.reveal').forEach(el =>
+      new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
+      }, { threshold: 0.08 }).observe(el)
+    )
+  </script>
+</body>
+</html>

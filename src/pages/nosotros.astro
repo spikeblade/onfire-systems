@@ -1,0 +1,143 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { getPageContent, get } from '../lib/content'
+
+const c = await getPageContent('nosotros')
+const h = (k: string) => get(c, 'historia', k)
+const mv = (k: string) => get(c, 'mv', k)
+---
+<Layout title="Nosotros — OnFire Systems" page="nosotros">
+<style>
+  .historia { padding: 100px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
+  .historia-text h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 32px; }
+  .historia-text h2 em { font-style: normal; color: var(--yellow); }
+  .historia-text p { font-size: 0.975rem; line-height: 1.85; color: rgba(245,245,240,0.6); margin-bottom: 20px; }
+  .historia-visual { position: sticky; top: 120px; }
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(var(--red), var(--blue)); }
+  .tl-item { margin-bottom: 48px; position: relative; }
+  .tl-dot { position: absolute; left: -34px; top: 4px; width: 12px; height: 12px; border-radius: 50%; }
+  .tl-item:nth-child(1) .tl-dot { background: var(--red); }
+  .tl-item:nth-child(2) .tl-dot { background: var(--yellow); }
+  .tl-item:nth-child(3) .tl-dot { background: var(--green); }
+  .tl-item:nth-child(4) .tl-dot { background: var(--blue); }
+  .tl-item:nth-child(5) .tl-dot { background: var(--yellow); }
+  .tl-year { font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 6px; }
+  .tl-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .tl-body { font-size: 0.85rem; line-height: 1.65; color: var(--muted); }
+  .valores-section { padding: 100px 48px; background: var(--gray); }
+  .valores-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 64px; }
+  .valor-card { background: var(--black); padding: 48px 36px; position: relative; overflow: hidden; transition: background 0.3s; }
+  .valor-card:hover { background: #111; }
+  .valor-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .v1 .valor-accent { background: var(--red); }
+  .v2 .valor-accent { background: var(--yellow); }
+  .v3 .valor-accent { background: var(--green); }
+  .v4 .valor-accent { background: var(--blue); }
+  .v5 .valor-accent { background: var(--red); }
+  .v6 .valor-accent { background: var(--yellow); }
+  .valor-icon { font-size: 2rem; margin-bottom: 20px; display: block; }
+  .valor-name { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; }
+  .v1 .valor-name { color: var(--red); }
+  .v2 .valor-name { color: var(--yellow); }
+  .v3 .valor-name { color: var(--green); }
+  .v4 .valor-name { color: var(--blue); }
+  .v5 .valor-name { color: var(--red); }
+  .v6 .valor-name { color: var(--yellow); }
+  .valor-desc { font-size: 0.875rem; line-height: 1.75; color: var(--muted); }
+  .mv-section { padding: 100px 48px; }
+  .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 64px; }
+  .mv-card { padding: 60px 48px; background: var(--gray); position: relative; }
+  .mv-label { font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .mv-label::before { content: ''; width: 20px; height: 1px; background: currentColor; }
+  .mv-card:first-child .mv-label { color: var(--red); }
+  .mv-card:last-child .mv-label { color: var(--blue); }
+  .mv-title { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 20px; }
+  .mv-body { font-size: 0.95rem; line-height: 1.8; color: rgba(245,245,240,0.6); }
+  .nums-section { padding: 80px 48px; background: var(--gray); border-top: 1px solid var(--gray2); display: grid; grid-template-columns: repeat(4, 1fr); }
+  .num-item { padding: 40px 32px; border-right: 1px solid var(--gray2); }
+  .num-item:last-child { border-right: none; }
+  .num-val { font-family: 'Syne', sans-serif; font-size: 3.5rem; font-weight: 800; line-height: 1; margin-bottom: 8px; }
+  .n1 .num-val { color: var(--red); }
+  .n2 .num-val { color: var(--yellow); }
+  .n3 .num-val { color: var(--green); }
+  .n4 .num-val { color: var(--blue); }
+  .num-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.08em; line-height: 1.4; }
+  .cta-strip { background: var(--black); padding: 80px 48px; border-top: 1px solid var(--gray2); display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+  .cta-strip h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; }
+  .cta-strip h2 em { font-style: normal; color: var(--yellow); }
+</style>
+
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-accent" style="width:400px;height:400px;background:var(--yellow);top:-150px;right:50px;"></div>
+  <div class="page-hero-accent" style="width:250px;height:250px;background:var(--green);bottom:0;left:300px;"></div>
+  <div class="page-hero-content">
+    <p class="page-eyebrow" style="color:var(--yellow)">{get(c,'hero','eyebrow') || 'Quiénes somos'}</p>
+    <h1 class="page-title">{get(c,'hero','title_line1') || 'Siete años'}<br><span style="color:var(--red)">{get(c,'hero','title_line2') || 'encendiendo'}</span><br>{get(c,'hero','title_line3') || 'tecnología.'}</h1>
+    <p class="page-subtitle">{get(c,'hero','subtitle') || 'Somos un equipo colombiano apasionado por construir soluciones tecnológicas que funcionan de verdad — no solo en papel.'}</p>
+  </div>
+</section>
+
+<div class="nums-section reveal">
+  <div class="num-item n1"><div class="num-val">{get(c,'stats','years') || '7'}</div><div class="num-label">Años de<br>experiencia</div></div>
+  <div class="num-item n2"><div class="num-val">{get(c,'stats','services') || '5'}</div><div class="num-label">Líneas de<br>servicio</div></div>
+  <div class="num-item n3"><div class="num-val">{get(c,'stats','uptime') || '99.9%'}</div><div class="num-label">Uptime<br>promedio</div></div>
+  <div class="num-item n4"><div class="num-val">{get(c,'stats','commitment') || '∞'}</div><div class="num-label">Compromiso<br>posventa</div></div>
+</div>
+
+<section class="historia">
+  <div class="historia-text reveal">
+    <div class="section-tag">Nuestra historia</div>
+    <h2>Nacimos de la<br><em>necesidad real</em><br>de las empresas.</h2>
+    <p>{h('p1') || 'OnFire Systems nació hace siete años con una convicción simple: las empresas medianas y pequeñas merecen acceso a tecnología de calidad sin tener que pagar precios de gran corporación ni lidiar con proveedores que desaparecen después de la entrega.'}</p>
+    <p>{h('p2') || 'Empezamos resolviendo problemas concretos de infraestructura y redes para clientes locales. Con el tiempo fuimos ampliando nuestra cancha: seguridad perimetral, servidores, directorios activos, software a la medida, arquitectura de sistemas y, más recientemente, domótica e IoT.'}</p>
+    <p>{h('p3') || 'Hoy somos un equipo técnico comprometido con resultados. No vendemos humo ni soluciones genéricas. Escuchamos, entendemos el contexto y construimos lo que realmente se necesita.'}</p>
+  </div>
+  <div class="historia-visual reveal">
+    <div class="section-tag">Línea de tiempo</div><br>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 1 — 2018</p><p class="tl-title">Los primeros proyectos</p><p class="tl-body">Infraestructura y redes para pequeñas empresas. Configuración de servidores, cableado estructurado y soporte técnico local.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 2-3 — 2019–2020</p><p class="tl-title">Seguridad y crecimiento</p><p class="tl-body">Incorporamos seguridad perimetral, directorios activos y los primeros centros de datos de pequeña escala.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 4-5 — 2021–2022</p><p class="tl-title">Software a la medida</p><p class="tl-body">Ampliamos hacia el desarrollo de software y arquitectura de sistemas, respondiendo a la demanda de clientes que ya confiaban en nuestra infraestructura.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 6 — 2023</p><p class="tl-title">Domótica &amp; IoT</p><p class="tl-body">Primeros proyectos de automatización residencial y corporativa. Un mercado nuevo que adoptamos con metodología probada.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">HOY — 2025</p><p class="tl-title">Cinco frentes activos</p><p class="tl-body">Un equipo consolidado cubriendo el ciclo completo de tecnología empresarial, con clientes en diferentes sectores de Colombia.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="mv-section">
+  <div class="section-tag reveal">Propósito</div>
+  <h2 class="section-title reveal">Lo que nos<br>mueve.</h2>
+  <div class="mv-grid reveal">
+    <div class="mv-card">
+      <p class="mv-label">Misión</p>
+      <h3 class="mv-title">{mv('mision_title') || 'Tecnología que trabaja para el negocio, no al revés.'}</h3>
+      <p class="mv-body">{mv('mision_body') || 'Acompañar a empresas colombianas en su transformación tecnológica con soluciones prácticas, honestas y sostenibles — desde la red física hasta el software que impulsa su crecimiento.'}</p>
+    </div>
+    <div class="mv-card">
+      <p class="mv-label">Visión</p>
+      <h3 class="mv-title">{mv('vision_title') || 'Ser el aliado tecnológico de referencia en la región.'}</h3>
+      <p class="mv-body">{mv('vision_body') || 'Consolidarnos como el equipo al que las empresas llaman primero cuando tienen un reto tecnológico, porque saben que llegamos con conocimiento, transparencia y compromiso real.'}</p>
+    </div>
+  </div>
+</section>
+
+<section class="valores-section">
+  <div class="section-tag reveal">Cultura</div>
+  <h2 class="section-title reveal">Cómo<br>trabajamos.</h2>
+  <div class="valores-grid reveal">
+    <div class="valor-card v1"><div class="valor-accent"></div><span class="valor-icon">🎯</span><p class="valor-name">Honestidad técnica</p><p class="valor-desc">Decimos lo que es posible, lo que no es y lo que cuesta. Nunca prometemos lo que no podemos cumplir.</p></div>
+    <div class="valor-card v2"><div class="valor-accent"></div><span class="valor-icon">⚡</span><p class="valor-name">Velocidad con criterio</p><p class="valor-desc">Somos ágiles, pero no descuidados. Cada decisión técnica la tomamos pensando en el largo plazo.</p></div>
+    <div class="valor-card v3"><div class="valor-accent"></div><span class="valor-icon">🤝</span><p class="valor-name">Relaciones de largo plazo</p><p class="valor-desc">No buscamos clientes de un proyecto. Buscamos aliados que crezcan con nosotros y nosotros con ellos.</p></div>
+    <div class="valor-card v4"><div class="valor-accent"></div><span class="valor-icon">🔍</span><p class="valor-name">Transparencia total</p><p class="valor-desc">Visibilidad completa en costos, avances y decisiones. Sin letra pequeña ni sorpresas al final del mes.</p></div>
+    <div class="valor-card v5"><div class="valor-accent"></div><span class="valor-icon">📐</span><p class="valor-name">Rigor en la ejecución</p><p class="valor-desc">Los detalles importan. La calidad no es opcional, es el estándar mínimo en cada entregable.</p></div>
+    <div class="valor-card v6"><div class="valor-accent"></div><span class="valor-icon">🌱</span><p class="valor-name">Aprendizaje continuo</p><p class="valor-desc">La tecnología no se detiene y nosotros tampoco. Nos actualizamos constantemente para traerte lo mejor.</p></div>
+  </div>
+</section>
+
+<div class="cta-strip reveal">
+  <h2>¿Quieres trabajar<br>con un equipo <em>de verdad?</em></h2>
+  <a href="/contacto" class="btn-primary">Contáctenos →</a>
+</div>
+</Layout>

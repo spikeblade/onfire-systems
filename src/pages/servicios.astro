@@ -1,0 +1,146 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { getPageContent, get } from '../lib/content'
+
+const c = await getPageContent('servicios')
+const s = (sec: string, k: string) => get(c, sec, k)
+---
+<Layout title="Servicios — OnFire Systems" page="servicios">
+<style>
+  .services-full { padding: 80px 48px 120px; }
+  .service-block { display: grid; grid-template-columns: 1fr 1.6fr; gap: 0; border-top: 1px solid var(--gray2); padding: 72px 0; position: relative; }
+  .service-block:last-child { border-bottom: 1px solid var(--gray2); }
+  .service-left { padding-right: 60px; }
+  .service-number { font-family: 'Syne', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; color: var(--muted); font-weight: 700; margin-bottom: 20px; }
+  .service-icon-big { font-size: 3rem; display: block; margin-bottom: 20px; }
+  .service-heading { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+  .s-infra .service-heading { color: var(--red); }
+  .s-sec .service-heading { color: var(--blue); }
+  .s-arch .service-heading { color: var(--yellow); }
+  .s-sw .service-heading { color: var(--green); }
+  .s-iot .service-heading { color: var(--yellow); }
+  .service-right { padding-left: 60px; border-left: 1px solid var(--gray2); }
+  .service-desc-full { font-size: 1rem; line-height: 1.8; color: rgba(245,245,240,0.6); margin-bottom: 40px; }
+  .capabilities { display: flex; flex-direction: column; }
+  .cap-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .cap-item:first-child { border-top: 1px solid rgba(255,255,255,0.05); }
+  .cap-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 8px; }
+  .s-infra .cap-dot { background: var(--red); }
+  .s-sec .cap-dot { background: var(--blue); }
+  .s-arch .cap-dot { background: var(--yellow); }
+  .s-sw .cap-dot { background: var(--green); }
+  .s-iot .cap-dot { background: var(--yellow); }
+  .cap-text { font-size: 0.9rem; color: rgba(245,245,240,0.65); line-height: 1.5; }
+  .cap-text strong { color: var(--white); font-weight: 500; display: block; margin-bottom: 2px; }
+  .cta-strip { background: var(--gray); padding: 80px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+  .cta-strip h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; }
+  .cta-strip h2 em { font-style: normal; color: var(--yellow); }
+</style>
+
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-accent" style="width:500px;height:500px;background:var(--red);top:-200px;right:-100px;"></div>
+  <div class="page-hero-accent" style="width:300px;height:300px;background:var(--blue);bottom:-100px;left:200px;"></div>
+  <div class="page-hero-content">
+    <p class="page-eyebrow" style="color:var(--red)">{s('hero','eyebrow') || 'Lo que hacemos'}</p>
+    <h1 class="page-title">{s('hero','title_line1') || 'Cinco frentes.'}<br><span style="color:var(--yellow)">{s('hero','title_line2') || 'Un solo fuego.'}</span></h1>
+    <p class="page-subtitle">{s('hero','subtitle') || 'Cubrimos el ciclo completo de la tecnología empresarial: desde la red física hasta el software que mueve tu negocio, pasando por seguridad, arquitectura y espacios inteligentes.'}</p>
+  </div>
+</section>
+
+<div class="services-full">
+  <div class="service-block s-infra reveal">
+    <div class="service-left">
+      <p class="service-number">01 / 05</p>
+      <span class="service-icon-big">⚡</span>
+      <h2 class="service-heading">Infraestructura</h2>
+    </div>
+    <div class="service-right">
+      <p class="service-desc-full">{s('infra','desc') || 'Diseñamos y gestionamos la base tecnológica de tu empresa: servidores físicos y virtuales, directorios activos y pequeños centros de datos que operan con disponibilidad, orden y rendimiento sostenido.'}</p>
+      <div class="capabilities">
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Configuración de servidores</strong>Instalación, configuración y hardening de servidores físicos y virtuales bajo mejores prácticas de seguridad.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Directorio Activo (Active Directory)</strong>Gestión de usuarios, grupos, políticas GPO, dominios y autenticación centralizada en entornos Windows Server.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Pequeños centros de datos</strong>Diseño, montaje y administración de mini data centers: rack, cableado estructurado, UPS y climatización.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Cloud e híbrido</strong>Despliegue y administración en entornos cloud (AWS, GCP, Azure) con estrategias híbridas según el presupuesto.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Monitoreo continuo</strong>Supervisión proactiva de recursos, alertas tempranas y reportes de salud del sistema 24/7.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="service-block s-sec reveal">
+    <div class="service-left">
+      <p class="service-number">02 / 05</p>
+      <span class="service-icon-big">🛡</span>
+      <h2 class="service-heading">Seguridad &amp; Redes</h2>
+    </div>
+    <div class="service-right">
+      <p class="service-desc-full">{s('sec','desc') || 'Protegemos el perímetro de tu organización y construimos redes de información confiables. Implementamos barreras técnicas y políticas de acceso que blindan tu operación sin sacrificar la agilidad del equipo.'}</p>
+      <div class="capabilities">
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Seguridad perimetral</strong>Firewalls, IDS/IPS, segmentación de red y zonas desmilitarizadas (DMZ) para controlar el tráfico entrante y saliente.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Redes LAN / WAN</strong>Diseño, instalación y configuración de redes cableadas e inalámbricas corporativas con alta disponibilidad.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>VPN y acceso remoto seguro</strong>Soluciones de acceso remoto cifrado para equipos híbridos y sucursales distribuidas.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Control de acceso</strong>Políticas de privilegio mínimo, autenticación multifactor y auditorías de acceso a recursos críticos.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Diagnóstico y auditoría</strong>Revisión del estado actual de seguridad, identificación de vulnerabilidades y plan de remediación.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="service-block s-arch reveal">
+    <div class="service-left">
+      <p class="service-number">03 / 05</p>
+      <span class="service-icon-big">🏗</span>
+      <h2 class="service-heading">Arquitectura de Software</h2>
+    </div>
+    <div class="service-right">
+      <p class="service-desc-full">{s('arch','desc') || 'Antes de escribir una línea de código, definimos el plano. Diseñamos estructuras técnicas sólidas que evitan la deuda técnica desde el inicio: servicios bien delimitados, APIs coherentes y decisiones de stack fundamentadas.'}</p>
+      <div class="capabilities">
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Diseño de microservicios</strong>Descomposición de sistemas monolíticos en servicios independientes, desplegables y mantenibles por separado.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Diseño de APIs</strong>APIs REST y GraphQL bien documentadas, versionadas y con contratos claros entre equipos.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Arquitecturas event-driven</strong>Sistemas orientados a eventos con brokers como Kafka o RabbitMQ para flujos de datos de alta frecuencia.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Auditorías técnicas</strong>Revisión de sistemas existentes: identificamos cuellos de botella, riesgos y oportunidades de mejora.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Selección de stack</strong>Recomendación de tecnologías adecuadas al contexto: equipo, presupuesto, escala y mantenibilidad a largo plazo.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="service-block s-sw reveal">
+    <div class="service-left">
+      <p class="service-number">04 / 05</p>
+      <span class="service-icon-big">🔥</span>
+      <h2 class="service-heading">Software a la Medida</h2>
+    </div>
+    <div class="service-right">
+      <p class="service-desc-full">{s('sw','desc') || 'Desarrollamos software que encaja exactamente en cómo opera tu empresa, no al revés. Desde herramientas internas hasta plataformas de cara al cliente, construimos con metodologías ágiles, entregas frecuentes y foco en el impacto real del negocio.'}</p>
+      <div class="capabilities">
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Aplicaciones web y móviles</strong>Desarrollo full-stack de productos digitales modernos, responsivos y optimizados para conversión y retención.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Integración con ERP y sistemas legados</strong>Conexión con SAP, Siesa, Dynamics y otros sistemas empresariales mediante APIs o conectores a medida.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Automatización de procesos</strong>Eliminación de tareas manuales repetitivas mediante scripts, bots y flujos automatizados que ahorran tiempo y errores.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>BI y analítica</strong>Dashboards, reportes y pipelines de datos que convierten información bruta en decisiones claras.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Inteligencia Artificial aplicada</strong>Modelos de ML e IA integrados a procesos reales: clasificación, predicción, procesamiento de lenguaje y visión.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="service-block s-iot reveal">
+    <div class="service-left">
+      <p class="service-number">05 / 05</p>
+      <span class="service-icon-big">🏠</span>
+      <h2 class="service-heading">Domótica &amp; IoT</h2>
+    </div>
+    <div class="service-right">
+      <p class="service-desc-full">{s('iot','desc') || 'Un mercado en el que estamos creciendo con paso firme. Implementamos soluciones de automatización para entornos residenciales y pequeños entornos corporativos: dispositivos conectados, control centralizado y ambientes que responden a las necesidades de sus ocupantes.'}</p>
+      <div class="capabilities">
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Automatización del hogar</strong>Control de iluminación, climatización, accesos y entretenimiento desde un punto centralizado o por voz.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Dispositivos IoT conectados</strong>Integración de sensores, actuadores y dispositivos inteligentes en redes seguras y gestionables.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Plataformas de control</strong>Configuración de hubs centrales (Home Assistant, KNX, Zigbee) adaptados al nivel de complejidad requerido.</div></div>
+        <div class="cap-item"><div class="cap-dot"></div><div class="cap-text"><strong>Entornos corporativos pequeños</strong>Gestión de accesos, monitoreo de condiciones ambientales y automatización de oficinas o locales comerciales.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-strip reveal">
+  <h2>¿Cuál de estos frentes<br>necesita tu <em>empresa hoy?</em></h2>
+  <a href="/contacto" class="btn-primary">Hablemos →</a>
+</div>
+</Layout>

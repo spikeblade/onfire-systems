@@ -1,0 +1,121 @@
+---
+import { getCookieToken, supabaseWithToken } from '../../lib/supabase'
+
+const token = getCookieToken(Astro.request.headers.get('cookie'))
+if (!token) return Astro.redirect('/admin/login')
+const client = supabaseWithToken(token)
+const { data: { user } } = await client.auth.getUser()
+if (!user) return Astro.redirect('/admin/login')
+
+const { data: leads } = await client.from('leads').select('*').order('created_at', { ascending: false })
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leads — OnFire Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    :root{--black:#090909;--white:#f5f5f0;--red:#e8231a;--yellow:#f5a800;--green:#3a9e2f;--blue:#1a5bbf;--gray:#1a1a1a;--gray2:#2a2a2a;--muted:#666}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;display:flex}
+    .sidebar{width:240px;background:var(--gray);padding:32px 24px;display:flex;flex-direction:column;flex-shrink:0;border-right:1px solid var(--gray2)}
+    .sidebar-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;margin-bottom:48px}
+    .sidebar-logo span{color:var(--red)}
+    .nav-item{display:block;padding:12px 16px;color:var(--muted);text-decoration:none;font-size:0.85rem;border-radius:2px;margin-bottom:4px;transition:all 0.2s}
+    .nav-item:hover,.nav-item.active{background:var(--gray2);color:var(--white)}
+    .nav-item.active{color:var(--yellow)}
+    .sidebar-footer{margin-top:auto}
+    .logout-btn{width:100%;background:none;border:1px solid var(--gray2);color:var(--muted);padding:10px;font-family:'DM Sans',sans-serif;font-size:0.8rem;border-radius:2px;cursor:pointer;transition:all 0.2s;text-align:center}
+    .logout-btn:hover{border-color:var(--red);color:var(--red)}
+    .main{flex:1;padding:48px;overflow:auto}
+    .page-header{margin-bottom:40px}
+    .page-header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
+    .page-header p{color:var(--muted);font-size:0.875rem}
+    .leads-table{width:100%}
+    .lead-card{background:var(--gray);margin-bottom:2px;overflow:hidden}
+    .lead-header{display:grid;grid-template-columns:1fr 1fr 1fr 140px 100px;gap:16px;align-items:center;padding:20px 24px;cursor:pointer;transition:background 0.2s}
+    .lead-header:hover{background:#222}
+    .lead-name{font-weight:400;color:var(--white)}
+    .lead-email{color:var(--muted);font-size:0.875rem}
+    .lead-company{color:var(--muted);font-size:0.875rem}
+    .lead-date{color:var(--muted);font-size:0.8rem}
+    .badge{display:inline-block;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:2px;font-weight:600}
+    .badge-new{background:rgba(232,35,26,0.15);color:var(--red)}
+    .badge-read{background:rgba(255,255,255,0.06);color:var(--muted)}
+    .lead-body{display:none;padding:0 24px 24px;border-top:1px solid var(--gray2)}
+    .lead-body.open{display:block}
+    .lead-message{font-size:0.875rem;line-height:1.75;color:rgba(245,245,240,0.65);white-space:pre-wrap;margin-top:16px}
+    .mark-read-btn{background:none;border:1px solid var(--gray2);color:var(--muted);padding:6px 14px;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all 0.2s;margin-top:16px}
+    .mark-read-btn:hover{border-color:var(--green);color:var(--green)}
+    .empty{text-align:center;padding:80px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-logo"><span>on</span>fire admin</div>
+    <a href="/admin" class="nav-item">Dashboard</a>
+    <a href="/admin/contenido" class="nav-item">Contenido</a>
+    <a href="/admin/leads" class="nav-item active">Leads</a>
+    <a href="/" target="_blank" class="nav-item">Ver sitio →</a>
+    <div class="sidebar-footer">
+      <form method="POST" action="/api/auth/logout">
+        <button type="submit" class="logout-btn">Cerrar sesión</button>
+      </form>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <h1>Leads</h1>
+      <p>{leads?.length ?? 0} mensaje{leads?.length !== 1 ? 's' : ''} recibido{leads?.length !== 1 ? 's' : ''}</p>
+    </div>
+
+    <div class="leads-table">
+      {leads && leads.length > 0 ? leads.map(lead => (
+        <div class="lead-card" data-id={lead.id} data-read={lead.read.toString()}>
+          <div class="lead-header" onclick="toggleLead(this)">
+            <span class="lead-name">{lead.name}</span>
+            <span class="lead-email">{lead.email}</span>
+            <span class="lead-company">{lead.company || '—'}</span>
+            <span class="lead-date">{new Date(lead.created_at).toLocaleDateString('es-CO', { day:'2-digit', month:'short', year:'numeric' })}</span>
+            <span class={`badge ${lead.read ? 'badge-read' : 'badge-new'}`}>{lead.read ? 'Leído' : 'Nuevo'}</span>
+          </div>
+          <div class="lead-body">
+            <p class="lead-message">{lead.message}</p>
+            {!lead.read && (
+              <button class="mark-read-btn" onclick={`markRead('${lead.id}', this)`}>Marcar como leído</button>
+            )}
+          </div>
+        </div>
+      )) : (
+        <div class="empty">Aún no hay mensajes de contacto.</div>
+      )}
+    </div>
+  </main>
+
+  <script>
+    function toggleLead(header: HTMLElement) {
+      const card = header.parentElement!
+      const body = card.querySelector('.lead-body')!
+      body.classList.toggle('open')
+    }
+
+    async function markRead(id: string, btn: HTMLButtonElement) {
+      const card = btn.closest('.lead-card')!
+      const badge = card.querySelector('.badge')!
+      const res = await fetch('/api/admin/leads', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (res.ok) {
+        badge.className = 'badge badge-read'
+        badge.textContent = 'Leído'
+        btn.remove()
+      }
+    }
+  </script>
+</body>
+</html>

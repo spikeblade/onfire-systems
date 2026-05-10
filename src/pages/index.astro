@@ -1,0 +1,308 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { getPageContent, get } from '../lib/content'
+
+const c = await getPageContent('home')
+const h = (k: string) => get(c, 'hero', k)
+const cta = (k: string) => get(c, 'cta', k)
+const why = (k: string) => get(c, 'why', k)
+---
+<Layout title="OnFire Systems — Infraestructura · Arquitectura · Software" page="home">
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; background: var(--black); }
+  .blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; animation: drift 20s ease-in-out infinite; }
+  .blob-1 { width: 600px; height: 600px; background: var(--red); top: -200px; right: -100px; }
+  .blob-2 { width: 400px; height: 400px; background: var(--yellow); bottom: 0; left: 30%; animation-delay: -7s; }
+  .blob-3 { width: 300px; height: 300px; background: var(--blue); top: 30%; left: -100px; animation-delay: -14s; }
+  .blob-4 { width: 250px; height: 250px; background: var(--green); bottom: 100px; right: 200px; animation-delay: -5s; }
+  @keyframes drift {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(40px,-60px) scale(1.1); }
+    66% { transform: translate(-30px,40px) scale(0.9); }
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 1;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 1100px; }
+  .hero-eyebrow {
+    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--blue); font-weight: 500; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--blue); }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 800; line-height: 0.9; letter-spacing: -0.03em;
+    margin-bottom: 32px;
+  }
+  .hero-title .line { display: block; overflow: hidden; }
+  .hero-title .line span { display: block; opacity: 0; transform: translateY(100%); animation: slideUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+  .hero-title .line:nth-child(1) span { animation-delay: 0.3s; }
+  .hero-title .line:nth-child(2) span { animation-delay: 0.45s; color: var(--yellow); }
+  .hero-title .line:nth-child(3) span { animation-delay: 0.6s; }
+  .hero-title .accent-r { color: var(--red); }
+  .hero-sub { display: flex; align-items: flex-start; gap: 80px; opacity: 0; animation: fadeUp 0.8s 0.9s forwards; }
+  .hero-desc { font-size: 1.05rem; line-height: 1.7; color: rgba(245,245,240,0.6); max-width: 420px; }
+  .hero-stats { display: flex; gap: 48px; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; line-height: 1; }
+  .stat-num.y { color: var(--yellow); }
+  .stat-num.g { color: var(--green); }
+  .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .scroll-hint {
+    position: absolute; right: 48px; bottom: 80px; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0; animation: fadeUp 1s 1.2s forwards;
+  }
+  .scroll-hint span { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--muted); writing-mode: vertical-rl; }
+  .scroll-line { width: 1px; height: 60px; background: linear-gradient(var(--blue), transparent); animation: scrollLine 2s ease-in-out infinite; }
+  @keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom} }
+
+  /* Services */
+  .section { padding: 120px 48px; }
+  .section-header { margin-bottom: 80px; }
+  .section-tag { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-tag::before { content: ''; width: 24px; height: 1px; background: currentColor; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .service-card { background: var(--gray); padding: 52px 40px; position: relative; overflow: hidden; transition: background 0.3s; }
+  .service-card:hover { background: var(--gray2); }
+  .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; transform: scaleX(0); transform-origin: left; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+  .service-card.s-infra::before { background: var(--red); }
+  .service-card.s-sec::before { background: var(--blue); }
+  .service-card.s-arch::before { background: var(--yellow); }
+  .service-card.s-sw::before { background: var(--green); }
+  .service-card.s-iot::before { background: var(--yellow); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-num { font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 48px; }
+  .service-icon { font-size: 2.5rem; margin-bottom: 24px; display: block; }
+  .service-name { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+  .service-card.s-infra .service-name { color: var(--red); }
+  .service-card.s-sec .service-name { color: var(--blue); }
+  .service-card.s-arch .service-name { color: var(--yellow); }
+  .service-card.s-sw .service-name { color: var(--green); }
+  .service-card.s-iot .service-name { color: var(--yellow); }
+  .service-desc { font-size: 0.9rem; line-height: 1.75; color: rgba(245,245,240,0.55); margin-bottom: 40px; }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border: 1px solid var(--gray2); color: var(--muted); font-weight: 500; transition: all 0.2s; }
+  .service-card:hover .tag { border-color: rgba(255,255,255,0.1); color: rgba(245,245,240,0.7); }
+
+  /* Why */
+  .why-section { padding: 120px 48px; background: var(--gray); }
+  .why-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .why-features { display: flex; flex-direction: column; }
+  .feature { padding: 32px 0; border-bottom: 1px solid var(--gray2); display: grid; grid-template-columns: 48px 1fr; gap: 24px; align-items: start; transition: padding-left 0.3s; }
+  .feature:hover { padding-left: 12px; }
+  .feature:first-child { border-top: 1px solid var(--gray2); }
+  .feature-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .f1 .feature-dot { background: var(--red); }
+  .f2 .feature-dot { background: var(--yellow); }
+  .f3 .feature-dot { background: var(--green); }
+  .f4 .feature-dot { background: var(--blue); }
+  .feature-title { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+  .feature-body { font-size: 0.875rem; line-height: 1.7; color: var(--muted); }
+  .why-visual { background: var(--black); aspect-ratio: 1; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .why-visual-inner { position: relative; width: 240px; height: 240px; }
+  .orbit { position: absolute; border-radius: 50%; border: 1px dashed; top: 50%; left: 50%; transform: translate(-50%,-50%); animation: spin linear infinite; }
+  .orbit-1 { width: 100px; height: 100px; border-color: rgba(232,35,26,0.4); animation-duration: 8s; }
+  .orbit-2 { width: 160px; height: 160px; border-color: rgba(245,168,0,0.3); animation-duration: 14s; animation-direction: reverse; }
+  .orbit-3 { width: 220px; height: 220px; border-color: rgba(58,158,47,0.25); animation-duration: 22s; }
+  .orbit-4 { width: 280px; height: 280px; border-color: rgba(26,91,191,0.2); animation-duration: 30s; animation-direction: reverse; }
+  @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+  .orbit-dot { position: absolute; width: 8px; height: 8px; border-radius: 50%; top: -4px; left: 50%; transform: translateX(-50%); }
+  .orbit-1 .orbit-dot { background: var(--red); }
+  .orbit-2 .orbit-dot { background: var(--yellow); }
+  .orbit-3 .orbit-dot { background: var(--green); }
+  .orbit-4 .orbit-dot { background: var(--blue); }
+  .orbit-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--red); border-radius: 2px; font-family: 'Syne', sans-serif; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.05em; line-height: 1.2; text-align: center; }
+
+  /* Process */
+  .process-section { padding: 120px 48px; }
+  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 80px; }
+  .step { padding: 40px 32px; position: relative; border-left: 1px solid var(--gray2); }
+  .step:first-child { border-left: none; }
+  .step-num { font-family: 'Syne', sans-serif; font-size: 4rem; font-weight: 800; line-height: 1; opacity: 0.06; margin-bottom: -20px; }
+  .step-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; position: relative; }
+  .step-1 .step-title { color: var(--red); }
+  .step-2 .step-title { color: var(--yellow); }
+  .step-3 .step-title { color: var(--green); }
+  .step-4 .step-title { color: var(--blue); }
+  .step-body { font-size: 0.875rem; line-height: 1.7; color: var(--muted); }
+
+  /* CTA */
+  .cta-section { padding: 120px 48px; background: var(--gray); position: relative; overflow: hidden; }
+  .cta-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: 'Syne', sans-serif; font-size: 22vw; font-weight: 800; line-height: 1; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.04); pointer-events: none; user-select: none; }
+  .cta-inner { position: relative; z-index: 1; display: flex; align-items: flex-end; justify-content: space-between; gap: 60px; }
+  .cta-title { font-family: 'Syne', sans-serif; font-size: clamp(3rem, 6vw, 6rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; }
+  .cta-title em { font-style: normal; color: var(--yellow); }
+  .cta-right { flex-shrink: 0; }
+  .cta-info { margin-bottom: 32px; }
+  .cta-info p { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+  .cta-info a { color: var(--white); text-decoration: none; font-size: 1.1rem; font-weight: 500; }
+  .cta-info a:hover { color: var(--yellow); }
+  .btn-primary { display: inline-block; background: var(--red); color: var(--white); padding: 18px 48px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background 0.2s, transform 0.2s; }
+  .btn-primary:hover { background: #c41d15; transform: translateY(-2px); }
+</style>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">{h('eyebrow') || 'Tecnología que no se detiene'}</p>
+    <h1 class="hero-title">
+      <span class="line"><span>{h('title_line1') || 'Sistemas'}</span></span>
+      <span class="line"><span>{h('title_line2') || 'que encienden'}</span></span>
+      <span class="line"><span>tu <span class="accent-r">{h('title_line3') || 'negocio'}</span></span></span>
+    </h1>
+    <div class="hero-sub">
+      <p class="hero-desc">{h('description') || 'Construimos infraestructura robusta, arquitecturas escalables y software a la medida para empresas que no aceptan límites.'}</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num y">{h('stat_years') || '7'}</div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num g">{h('stat_uptime') || '99.9%'}</div>
+          <div class="stat-label">Uptime</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section" id="servicios">
+  <div class="section-header reveal">
+    <p class="section-tag">{get(c, 'services', 'tag') || 'Lo que hacemos'}</p>
+    <h2 class="section-title" set:html={get(c, 'services', 'title') || 'Cinco frentes.<br>Un solo fuego.'}></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card s-infra reveal">
+      <p class="service-num">01</p>
+      <span class="service-icon">⚡</span>
+      <h3 class="service-name">Infraestructura</h3>
+      <p class="service-desc">{get(c, 'service_infra', 'desc') || 'Configuramos y gestionamos servidores, directorios activos y pequeños centros de datos que garantizan disponibilidad y rendimiento sostenido, tanto en nube como on-premise.'}</p>
+      <div class="service-tags"><span class="tag">Servidores</span><span class="tag">Directorio Activo</span><span class="tag">Mini Data Centers</span><span class="tag">Cloud / On-premise</span><span class="tag">Monitoreo 24/7</span></div>
+    </div>
+    <div class="service-card s-sec reveal">
+      <p class="service-num">02</p>
+      <span class="service-icon">🛡</span>
+      <h3 class="service-name">Seguridad &amp; Redes</h3>
+      <p class="service-desc">{get(c, 'service_sec', 'desc') || 'Implementamos seguridad perimetral robusta y diseñamos redes de información confiables: firewalls, VPNs, segmentación y políticas de acceso que protegen tu operación de extremo a extremo.'}</p>
+      <div class="service-tags"><span class="tag">Seguridad Perimetral</span><span class="tag">Redes LAN / WAN</span><span class="tag">Firewalls</span><span class="tag">VPN</span><span class="tag">Control de Acceso</span></div>
+    </div>
+    <div class="service-card s-arch reveal">
+      <p class="service-num">03</p>
+      <span class="service-icon">🏗</span>
+      <h3 class="service-name">Arquitectura de Software</h3>
+      <p class="service-desc">{get(c, 'service_arch', 'desc') || 'Diseñamos soluciones técnicas sólidas desde los cimientos — microservicios, APIs, integraciones y sistemas que escalan contigo sin deuda técnica acumulada.'}</p>
+      <div class="service-tags"><span class="tag">Microservicios</span><span class="tag">API Design</span><span class="tag">Event-Driven</span><span class="tag">Auditorías técnicas</span></div>
+    </div>
+    <div class="service-card s-sw reveal">
+      <p class="service-num">04</p>
+      <span class="service-icon">🔥</span>
+      <h3 class="service-name">Software a la Medida</h3>
+      <p class="service-desc">{get(c, 'service_sw', 'desc') || 'Desarrollamos productos digitales adaptados exactamente a tus procesos — desde MVPs ágiles hasta plataformas enterprise con integración a sistemas existentes.'}</p>
+      <div class="service-tags"><span class="tag">Web / Mobile</span><span class="tag">Integración ERP</span><span class="tag">Automatización</span><span class="tag">BI / Analytics</span><span class="tag">AI / ML</span></div>
+    </div>
+    <div class="service-card s-iot reveal">
+      <p class="service-num">05</p>
+      <span class="service-icon">🏠</span>
+      <h3 class="service-name">Domótica &amp; IoT</h3>
+      <p class="service-desc">{get(c, 'service_iot', 'desc') || 'Soluciones de automatización para espacios inteligentes: dispositivos IoT conectados que optimizan entornos residenciales y pequeños entornos corporativos con tecnología accesible y escalable.'}</p>
+      <div class="service-tags"><span class="tag">Automatización</span><span class="tag">Dispositivos IoT</span><span class="tag">Hogares inteligentes</span><span class="tag">Conectividad</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- Why -->
+<section class="why-section">
+  <div class="why-inner">
+    <div class="why-content">
+      <div class="section-header reveal">
+        <p class="section-tag">{why('tag') || 'Por qué OnFire'}</p>
+        <h2 class="section-title">Velocidad<br>sin<br><span style="color:var(--yellow)">{why('title_accent') || 'compromisos.'}</span></h2>
+      </div>
+      <div class="why-features reveal">
+        <div class="feature f1"><div class="feature-dot"></div><div>
+          <p class="feature-title">{why('f1_title') || 'Equipos de alto rendimiento'}</p>
+          <p class="feature-body">{why('f1_body') || 'Ingenieros senior especializados con experiencia comprobada en proyectos de alto impacto para múltiples industrias.'}</p>
+        </div></div>
+        <div class="feature f2"><div class="feature-dot"></div><div>
+          <p class="feature-title">{why('f2_title') || 'Entrega continua'}</p>
+          <p class="feature-body">{why('f2_body') || 'Metodologías ágiles y CI/CD que garantizan iteraciones rápidas, feedback real y software funcional desde el día uno.'}</p>
+        </div></div>
+        <div class="feature f3"><div class="feature-dot"></div><div>
+          <p class="feature-title">{why('f3_title') || 'Transparencia total'}</p>
+          <p class="feature-body">{why('f3_body') || 'Visibilidad completa del proyecto: métricas, avances, decisiones técnicas y costos. Sin sorpresas.'}</p>
+        </div></div>
+        <div class="feature f4"><div class="feature-dot"></div><div>
+          <p class="feature-title">{why('f4_title') || 'Soporte y evolución'}</p>
+          <p class="feature-body">{why('f4_body') || 'No entregamos y desaparecemos. Mantenemos, optimizamos y escalamos junto contigo a largo plazo.'}</p>
+        </div></div>
+      </div>
+    </div>
+    <div class="why-visual">
+      <div class="why-visual-inner">
+        <div class="orbit orbit-4"><div class="orbit-dot"></div></div>
+        <div class="orbit orbit-3"><div class="orbit-dot"></div></div>
+        <div class="orbit orbit-2"><div class="orbit-dot"></div></div>
+        <div class="orbit orbit-1"><div class="orbit-dot"></div></div>
+        <div class="orbit-center">ON<br>FIRE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="process-section">
+  <div class="section-header reveal">
+    <p class="section-tag">{get(c, 'process', 'tag') || 'Cómo trabajamos'}</p>
+    <h2 class="section-title">Del concepto<br>al <span style="color:var(--green)">{get(c, 'process', 'title_accent') || 'fuego'}</span>.</h2>
+  </div>
+  <div class="process-steps reveal">
+    <div class="step step-1"><div class="step-num">01</div><h4 class="step-title">Descubrimiento</h4><p class="step-body">{get(c, 'process', 'step1_body') || 'Entendemos tu negocio, tus procesos y los objetivos reales detrás de cada iniciativa tecnológica.'}</p></div>
+    <div class="step step-2"><div class="step-num">02</div><h4 class="step-title">Diseño</h4><p class="step-body">{get(c, 'process', 'step2_body') || 'Definimos la solución óptima: stack tecnológico, roadmap, equipo y estimaciones sin adornos.'}</p></div>
+    <div class="step step-3"><div class="step-num">03</div><h4 class="step-title">Construcción</h4><p class="step-body">{get(c, 'process', 'step3_body') || 'Desarrollo iterativo con sprints cortos, demos frecuentes y ajustes basados en feedback real.'}</p></div>
+    <div class="step step-4"><div class="step-num">04</div><h4 class="step-title">Escala</h4><p class="step-body">{get(c, 'process', 'step4_body') || 'Lanzamos, monitoreamos y crecemos. Tu plataforma evoluciona con cada nuevo desafío del negocio.'}</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg-text">ONFIRE</div>
+  <div class="cta-inner reveal">
+    <h2 class="cta-title" set:html={cta('title') || '¿Listo para<br><em>encender</em><br>tu stack?'}></h2>
+    <div class="cta-right">
+      <div class="cta-info">
+        <p>Email</p>
+        <a href={`mailto:${cta('email') || 'hola@onfiresystems.co'}`}>{cta('email') || 'hola@onfiresystems.co'}</a>
+      </div>
+      <div class="cta-info">
+        <p>Teléfono</p>
+        <a href={`tel:${cta('phone_raw') || '+573001234567'}`}>{cta('phone') || '+57 300 123 4567'}</a>
+      </div>
+      <a href="/contacto" class="btn-primary">Ir a contacto →</a>
+    </div>
+  </div>
+</section>
+</Layout>

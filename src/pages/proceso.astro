@@ -1,0 +1,150 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { getPageContent, get } from '../lib/content'
+
+const c = await getPageContent('proceso')
+const p = (sec: string, k: string) => get(c, sec, k)
+---
+<Layout title="Proceso — OnFire Systems" page="proceso">
+<style>
+  .phases { padding: 100px 48px; }
+  .phase { display: grid; grid-template-columns: 200px 1fr; gap: 0; border-top: 1px solid var(--gray2); position: relative; }
+  .phase:last-child { border-bottom: 1px solid var(--gray2); }
+  .phase-left { padding: 60px 48px 60px 0; display: flex; flex-direction: column; align-items: flex-start; border-right: 1px solid var(--gray2); }
+  .phase-num { font-family: 'Syne', sans-serif; font-size: 5rem; font-weight: 800; line-height: 1; opacity: 0.06; margin-bottom: -16px; }
+  .phase-tag { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; }
+  .p1 .phase-tag { color: var(--red); }
+  .p2 .phase-tag { color: var(--yellow); }
+  .p3 .phase-tag { color: var(--green); }
+  .p4 .phase-tag { color: var(--blue); }
+  .p5 .phase-tag { color: var(--red); }
+  .phase-right { padding: 60px 0 60px 60px; }
+  .phase-title { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 20px; }
+  .p1 .phase-title { color: var(--red); }
+  .p2 .phase-title { color: var(--yellow); }
+  .p3 .phase-title { color: var(--green); }
+  .p4 .phase-title { color: var(--blue); }
+  .p5 .phase-title { color: var(--red); }
+  .phase-desc { font-size: 0.975rem; line-height: 1.8; color: rgba(245,245,240,0.6); max-width: 580px; margin-bottom: 36px; }
+  .deliverables { display: flex; flex-wrap: wrap; gap: 10px; }
+  .deliverable { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; font-weight: 500; border-radius: 2px; }
+  .p1 .deliverable { background: rgba(232,35,26,0.1); color: var(--red); }
+  .p2 .deliverable { background: rgba(245,168,0,0.1); color: var(--yellow); }
+  .p3 .deliverable { background: rgba(58,158,47,0.1); color: var(--green); }
+  .p4 .deliverable { background: rgba(26,91,191,0.1); color: var(--blue); }
+  .p5 .deliverable { background: rgba(232,35,26,0.1); color: var(--red); }
+  .principios { padding: 100px 48px; background: var(--gray); }
+  .principios-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 64px; }
+  .principio { background: var(--black); padding: 48px 40px; display: grid; grid-template-columns: 48px 1fr; gap: 24px; align-items: start; }
+  .principio-icon { font-size: 1.8rem; }
+  .principio-title { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 800; margin-bottom: 10px; }
+  .principio-body { font-size: 0.875rem; line-height: 1.75; color: var(--muted); }
+  .faq-section { padding: 100px 48px; }
+  .faq-list { margin-top: 64px; }
+  .faq-item { border-top: 1px solid var(--gray2); overflow: hidden; }
+  .faq-item:last-child { border-bottom: 1px solid var(--gray2); }
+  .faq-question { width: 100%; background: none; border: none; color: var(--white); text-align: left; padding: 28px 0; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; cursor: none; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+  .faq-question:hover { color: var(--yellow); }
+  .faq-arrow { font-size: 1.2rem; transition: transform 0.3s; flex-shrink: 0; color: var(--muted); }
+  .faq-item.open .faq-arrow { transform: rotate(45deg); color: var(--yellow); }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.3s; }
+  .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 28px; }
+  .faq-answer p { font-size: 0.9rem; line-height: 1.8; color: var(--muted); max-width: 720px; }
+  .cta-strip { background: var(--gray); padding: 80px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+  .cta-strip h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; }
+  .cta-strip h2 em { font-style: normal; color: var(--yellow); }
+</style>
+
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-accent" style="width:450px;height:450px;background:var(--green);top:-180px;right:0;"></div>
+  <div class="page-hero-accent" style="width:200px;height:200px;background:var(--red);bottom:0;left:400px;"></div>
+  <div class="page-hero-content">
+    <p class="page-eyebrow" style="color:var(--green)">{p('hero','eyebrow') || 'Cómo trabajamos'}</p>
+    <h1 class="page-title">{p('hero','title_line1') || 'Del primer'}<br>{p('hero','title_line2') || 'café al'}<br><span style="color:var(--green)">{p('hero','title_line3') || 'resultado.'}</span></h1>
+    <p class="page-subtitle">{p('hero','subtitle') || 'Nuestro proceso está diseñado para eliminar incertidumbre, mantener el control en tus manos y entregar valor real en cada etapa — no solo al final.'}</p>
+  </div>
+</section>
+
+<div class="phases">
+  <div class="phase p1 reveal">
+    <div class="phase-left"><div class="phase-num">01</div><span class="phase-tag">Descubrimiento</span></div>
+    <div class="phase-right">
+      <h3 class="phase-title">{p('phase1','title') || 'Entendemos antes de proponer.'}</h3>
+      <p class="phase-desc">{p('phase1','desc') || 'Antes de hablar de tecnología, hablamos de negocio. Nos sentamos contigo para entender tu operación, tus dolores actuales, tus restricciones reales y el resultado que esperas.'}</p>
+      <div class="deliverables"><span class="deliverable">Reunión de diagnóstico</span><span class="deliverable">Levantamiento de requerimientos</span><span class="deliverable">Revisión del entorno actual</span><span class="deliverable">Identificación de restricciones</span></div>
+    </div>
+  </div>
+  <div class="phase p2 reveal">
+    <div class="phase-left"><div class="phase-num">02</div><span class="phase-tag">Propuesta</span></div>
+    <div class="phase-right">
+      <h3 class="phase-title">{p('phase2','title') || 'Definimos la solución sin adornos.'}</h3>
+      <p class="phase-desc">{p('phase2','desc') || 'Con lo que aprendimos, construimos una propuesta técnica clara: qué vamos a hacer, cómo lo vamos a hacer, cuánto va a costar y en cuánto tiempo. Sin letra pequeña, sin estimaciones infladas para cubrirse las espaldas.'}</p>
+      <div class="deliverables"><span class="deliverable">Propuesta técnica</span><span class="deliverable">Presupuesto detallado</span><span class="deliverable">Cronograma de entrega</span><span class="deliverable">Stack recomendado</span></div>
+    </div>
+  </div>
+  <div class="phase p3 reveal">
+    <div class="phase-left"><div class="phase-num">03</div><span class="phase-tag">Construcción</span></div>
+    <div class="phase-right">
+      <h3 class="phase-title">{p('phase3','title') || 'Construimos con iteraciones cortas y visibilidad total.'}</h3>
+      <p class="phase-desc">{p('phase3','desc') || 'Trabajamos en ciclos cortos con entregas frecuentes. Cada iteración tiene un resultado concreto que puedes ver y validar. Usamos herramientas de seguimiento compartidas para que en todo momento sepas en qué estamos.'}</p>
+      <div class="deliverables"><span class="deliverable">Sprints de 1–2 semanas</span><span class="deliverable">Demos periódicas</span><span class="deliverable">Tablero de avance compartido</span><span class="deliverable">Control de versiones</span><span class="deliverable">Pruebas continuas</span></div>
+    </div>
+  </div>
+  <div class="phase p4 reveal">
+    <div class="phase-left"><div class="phase-num">04</div><span class="phase-tag">Entrega</span></div>
+    <div class="phase-right">
+      <h3 class="phase-title">{p('phase4','title') || 'Entregamos, documentamos y transferimos.'}</h3>
+      <p class="phase-desc">{p('phase4','desc') || 'La entrega no es solo poner en producción. Es asegurarnos de que tu equipo entienda lo que se construyó, tenga la documentación necesaria y esté listo para operar de forma autónoma si así lo desea.'}</p>
+      <div class="deliverables"><span class="deliverable">Despliegue en producción</span><span class="deliverable">Documentación técnica</span><span class="deliverable">Capacitación al equipo</span><span class="deliverable">Pruebas de aceptación</span></div>
+    </div>
+  </div>
+  <div class="phase p5 reveal">
+    <div class="phase-left"><div class="phase-num">05</div><span class="phase-tag">Soporte &amp; Evolución</span></div>
+    <div class="phase-right">
+      <h3 class="phase-title">{p('phase5','title') || 'No desaparecemos después de entregar.'}</h3>
+      <p class="phase-desc">{p('phase5','desc') || 'Una vez en producción, seguimos disponibles. Monitoreo, correcciones, mejoras incrementales y crecimiento de la plataforma a medida que tu negocio lo requiera.'}</p>
+      <div class="deliverables"><span class="deliverable">Soporte correctivo</span><span class="deliverable">Monitoreo continuo</span><span class="deliverable">Mejoras evolutivas</span><span class="deliverable">SLA definido</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="principios">
+  <div class="section-tag reveal">Cómo lo hacemos</div>
+  <h2 class="section-title reveal">Principios que<br>no negociamos.</h2>
+  <div class="principios-grid reveal">
+    <div class="principio"><span class="principio-icon">📋</span><div><p class="principio-title">Documentación desde el día uno</p><p class="principio-body">Todo lo que construimos queda documentado. No como formalidad, sino como herramienta real para tu equipo y para nosotros en el futuro.</p></div></div>
+    <div class="principio"><span class="principio-icon">🔔</span><div><p class="principio-title">Comunicación proactiva</p><p class="principio-body">Si hay un problema, te lo decimos antes de que lo notes. Nunca recibirás noticias malas sin contexto ni solución propuesta.</p></div></div>
+    <div class="principio"><span class="principio-icon">🧪</span><div><p class="principio-title">Pruebas antes de producción</p><p class="principio-body">Nada llega a producción sin haber pasado por ambiente de pruebas. Los errores en producción cuestan más que el tiempo de testing.</p></div></div>
+    <div class="principio"><span class="principio-icon">🔐</span><div><p class="principio-title">Seguridad por diseño</p><p class="principio-body">La seguridad no es un feature que se agrega al final. La incorporamos desde la arquitectura inicial de cada proyecto.</p></div></div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div class="section-tag reveal">Preguntas frecuentes</div>
+  <h2 class="section-title reveal">Lo que siempre<br>nos preguntan.</h2>
+  <div class="faq-list reveal">
+    <div class="faq-item"><button class="faq-question">¿Cuánto tiempo toma un proyecto típico? <span class="faq-arrow">+</span></button><div class="faq-answer"><p>Depende del alcance. Un proyecto de infraestructura puede estar listo en 2–4 semanas. Un software a la medida de mediana complejidad toma entre 2 y 5 meses. En la propuesta siempre entregamos un cronograma detallado antes de comenzar.</p></div></div>
+    <div class="faq-item"><button class="faq-question">¿Trabajan con empresas de cualquier tamaño? <span class="faq-arrow">+</span></button><div class="faq-answer"><p>Sí. Hemos trabajado con empresas de 5 personas y con organizaciones de varios cientos. Lo importante no es el tamaño sino tener un reto tecnológico real que resolver. Nos adaptamos al presupuesto y al contexto.</p></div></div>
+    <div class="faq-item"><button class="faq-question">¿Qué pasa si el proyecto cambia en el camino? <span class="faq-arrow">+</span></button><div class="faq-answer"><p>Los cambios son normales. Nuestra metodología ágil los contempla. Si hay un cambio de alcance significativo, lo conversamos, ajustamos el presupuesto si aplica y seguimos. Sin dramas.</p></div></div>
+    <div class="faq-item"><button class="faq-question">¿Quedan con acceso a nuestros sistemas después de entregar? <span class="faq-arrow">+</span></button><div class="faq-answer"><p>Solo si el cliente así lo decide en el acuerdo de soporte. Al cierre del proyecto hacemos una entrega formal de accesos y credenciales. Todo lo que construimos es tuyo, sin dependencias artificiales de nuestra parte.</p></div></div>
+    <div class="faq-item"><button class="faq-question">¿Tienen experiencia en mi industria? <span class="faq-arrow">+</span></button><div class="faq-answer"><p>Hemos trabajado en sectores variados: comercio, salud, logística, educación y servicios profesionales, entre otros. Pero más importante que el sector es nuestra capacidad de aprender el negocio rápido.</p></div></div>
+  </div>
+</section>
+
+<div class="cta-strip reveal">
+  <h2>¿Listo para<br>arrancar el <em>proceso?</em></h2>
+  <a href="/contacto" class="btn-primary">Agendar reunión →</a>
+</div>
+
+<script>
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement!
+    const isOpen = item.classList.contains('open')
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'))
+    if (!isOpen) item.classList.add('open')
+  })
+})
+</script>
+</Layout>
