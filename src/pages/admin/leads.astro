@@ -95,25 +95,29 @@ const { data: leads } = await client.from('leads').select('*').order('created_at
     </div>
   </main>
 
-  <script>
-    function toggleLead(header: HTMLElement) {
-      const card = header.parentElement!
-      const body = card.querySelector('.lead-body')!
+  <script is:inline>
+    function toggleLead(header) {
+      var card = header.parentElement
+      var body = card.querySelector('.lead-body')
       body.classList.toggle('open')
     }
 
-    async function markRead(id: string, btn: HTMLButtonElement) {
-      const card = btn.closest('.lead-card')!
-      const badge = card.querySelector('.badge')!
-      const res = await fetch('/api/admin/leads', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id }),
-      })
-      if (res.ok) {
-        badge.className = 'badge badge-read'
-        badge.textContent = 'Leído'
-        btn.remove()
+    async function markRead(id, btn) {
+      var card = btn.closest('.lead-card')
+      var badge = card.querySelector('.badge')
+      try {
+        var res = await fetch('/api/admin/leads', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: id }),
+        })
+        if (res.ok) {
+          badge.className = 'badge badge-read'
+          badge.textContent = 'Leído'
+          btn.remove()
+        }
+      } catch (e) {
+        console.error('Error al marcar como leído:', e)
       }
     }
   </script>
