@@ -5,7 +5,11 @@ import { getPageContent, get } from '../lib/content'
 const c = await getPageContent('contacto')
 const info = (k: string) => get(c, 'info', k)
 ---
-<Layout title="Contáctenos — OnFire Systems" page="contacto">
+<Layout
+  title="Contáctenos | OnFire Systems — Hablemos de tu Proyecto Tecnológico"
+  description="Cuéntanos tu reto tecnológico. Disponibles por email, teléfono y WhatsApp. Respondemos en menos de 24 horas hábiles. OnFire Systems, Colombia."
+  page="contacto"
+>
 <style>
   .contact-main { padding: 100px 48px 120px; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
   .contact-info { position: sticky; top: 120px; }

@@ -5,7 +5,11 @@ import { getPageContent, get } from '../lib/content'
 const c = await getPageContent('proceso')
 const p = (sec: string, k: string) => get(c, sec, k)
 ---
-<Layout title="Proceso — OnFire Systems" page="proceso">
+<Layout
+  title="Proceso de Trabajo | OnFire Systems — Metodología Ágil con Resultados Reales"
+  description="Descubrimiento, propuesta técnica, construcción iterativa, entrega documentada y soporte continuo. Nuestro proceso elimina incertidumbre y entrega valor en cada etapa."
+  page="proceso"
+>
 <style>
   .phases { padding: 100px 48px; }
   .phase { display: grid; grid-template-columns: 200px 1fr; gap: 0; border-top: 1px solid var(--gray2); position: relative; }

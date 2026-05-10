@@ -6,7 +6,11 @@ const c = await getPageContent('nosotros')
 const h = (k: string) => get(c, 'historia', k)
 const mv = (k: string) => get(c, 'mv', k)
 ---
-<Layout title="Nosotros — OnFire Systems" page="nosotros">
+<Layout
+  title="Nosotros | OnFire Systems — 7 Años de Tecnología Empresarial en Colombia"
+  description="Conoce OnFire Systems: equipo colombiano con 7 años construyendo infraestructura, software a la medida, seguridad de redes y domótica para empresas reales."
+  page="nosotros"
+>
 <style>
   .historia { padding: 100px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
   .historia-text h2 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 32px; }

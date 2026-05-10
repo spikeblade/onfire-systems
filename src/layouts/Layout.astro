@@ -3,16 +3,103 @@ import '../styles/global.css'
 
 interface Props {
   title: string
+  description?: string
+  ogImage?: string
   page?: string
 }
-const { title, page } = Astro.props
+
+const {
+  title,
+  description = 'OnFire Systems — Infraestructura robusta, arquitectura escalable y software a la medida para empresas colombianas. 7 años construyendo tecnología que no se detiene.',
+  ogImage = '/og-default.jpg',
+  page
+} = Astro.props
+
+const SITE = 'https://onfiresystems.co'
+const canonicalURL = new URL(Astro.url.pathname, SITE)
+const ogImageURL = new URL(ogImage, SITE)
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["Organization", "LocalBusiness"],
+      "@id": `${SITE}/#organization`,
+      "name": "OnFire Systems",
+      "url": SITE,
+      "logo": `${SITE}/logo.png`,
+      "description": "Empresa colombiana de tecnología especializada en infraestructura, seguridad de redes, arquitectura de software, desarrollo a la medida y domótica IoT.",
+      "foundingDate": "2018",
+      "areaServed": "CO",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "CO",
+        "addressRegion": "Colombia"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "hola@onfiresystems.co",
+        "availableLanguage": "Spanish"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE}/#website`,
+      "url": SITE,
+      "name": "OnFire Systems",
+      "publisher": { "@id": `${SITE}/#organization` }
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonicalURL.href}#webpage`,
+      "url": canonicalURL.href,
+      "name": title,
+      "description": description,
+      "isPartOf": { "@id": `${SITE}/#website` },
+      "inLanguage": "es-CO"
+    }
+  ]
+})
 ---
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090909" />
+
+  <!-- Primary SEO -->
   <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="author" content="OnFire Systems" />
+  <link rel="canonical" href={canonicalURL.href} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL.href} />
+  <meta property="og:site_name" content="OnFire Systems" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImageURL.href} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="OnFire Systems — Tecnología empresarial" />
+  <meta property="og:locale" content="es_CO" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL.href} />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={jsonLd} />
 </head>
 <body>
   <div class="color-bar"></div>

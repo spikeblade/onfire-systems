@@ -5,7 +5,11 @@ import { getPageContent, get } from '../lib/content'
 const c = await getPageContent('servicios')
 const s = (sec: string, k: string) => get(c, sec, k)
 ---
-<Layout title="Servicios — OnFire Systems" page="servicios">
+<Layout
+  title="Servicios Tecnológicos | OnFire Systems — Infraestructura, Software y Seguridad"
+  description="Cinco servicios tecnológicos para empresas: infraestructura y servidores, seguridad y redes, arquitectura de software, desarrollo a la medida y domótica IoT. Colombia."
+  page="servicios"
+>
 <style>
   .services-full { padding: 80px 48px 120px; }
   .service-block { display: grid; grid-template-columns: 1fr 1.6fr; gap: 0; border-top: 1px solid var(--gray2); padding: 72px 0; position: relative; }
