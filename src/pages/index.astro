@@ -151,6 +151,42 @@ const why = (k: string) => get(c, 'why', k)
   .cta-info a:hover { color: var(--yellow); }
   .btn-primary { display: inline-block; background: var(--red); color: var(--white); padding: 18px 48px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background 0.2s, transform 0.2s; }
   .btn-primary:hover { background: #c41d15; transform: translateY(-2px); }
+
+  @media (max-width: 768px) {
+    .hero { padding: 0 20px 64px; }
+    .hero-sub { flex-direction: column; gap: 32px; }
+    .scroll-hint { display: none; }
+    .section { padding: 72px 20px; }
+    .section-header { margin-bottom: 48px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 36px 28px; }
+    .why-section { padding: 72px 20px; }
+    .why-inner { grid-template-columns: 1fr; gap: 40px; }
+    .why-visual { display: none; }
+    .process-section { padding: 72px 20px; }
+    .process-steps {
+      grid-template-columns: 1fr 1fr;
+      background: var(--gray2);
+      gap: 1px;
+      margin-top: 48px;
+    }
+    .step { border-left: none; background: var(--black); padding: 32px 20px; }
+    .step:first-child { border-left: none; }
+    .cta-section { padding: 72px 20px; }
+    .cta-inner { flex-direction: column; align-items: flex-start; gap: 40px; }
+    .cta-title { font-size: clamp(2.5rem, 8vw, 4rem); }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 0 16px 48px; }
+    .hero-stats { gap: 28px; }
+    .section { padding: 56px 16px; }
+    .why-section { padding: 56px 16px; }
+    .process-section { padding: 56px 16px; }
+    .cta-section { padding: 56px 16px; }
+    .process-steps { grid-template-columns: 1fr; }
+    .service-card { padding: 28px 20px; }
+  }
 </style>
 
 <!-- Hero -->

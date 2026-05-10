@@ -27,7 +27,10 @@ const { title, page } = Astro.props
         <span class="t6">systems</span>
       </div>
     </a>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="/servicios" class={page === 'servicios' ? 'active' : ''}>Servicios</a></li>
       <li><a href="/nosotros" class={page === 'nosotros' ? 'active' : ''}>Nosotros</a></li>
       <li><a href="/proceso" class={page === 'proceso' ? 'active' : ''}>Proceso</a></li>
@@ -67,6 +70,21 @@ const { title, page } = Astro.props
         entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
       }, { threshold: 0.08 }).observe(el)
     )
+
+    const navToggle = document.getElementById('navToggle')!
+    const navLinks = document.getElementById('navLinks')!
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('open')
+      navLinks.classList.toggle('open')
+      document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : ''
+    })
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open')
+        navLinks.classList.remove('open')
+        document.body.style.overflow = ''
+      })
+    })
   </script>
 </body>
 </html>

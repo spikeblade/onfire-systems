@@ -35,6 +35,26 @@ const s = (sec: string, k: string) => get(c, sec, k)
   .cta-strip { background: var(--gray); padding: 80px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
   .cta-strip h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; }
   .cta-strip h2 em { font-style: normal; color: var(--yellow); }
+
+  @media (max-width: 768px) {
+    .services-full { padding: 48px 20px 72px; }
+    .service-block { grid-template-columns: 1fr; padding: 40px 0; }
+    .service-left { padding-right: 0; padding-bottom: 28px; }
+    .service-right {
+      padding-left: 0;
+      border-left: none;
+      border-top: 1px solid var(--gray2);
+      padding-top: 28px;
+    }
+    .service-heading { font-size: 1.8rem; }
+    .cta-strip { padding: 56px 20px; flex-direction: column; align-items: flex-start; gap: 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .services-full { padding: 40px 16px 56px; }
+    .cta-strip { padding: 48px 16px; }
+    .service-block { padding: 32px 0; }
+  }
 </style>
 
 <section class="page-hero">

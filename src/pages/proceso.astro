@@ -53,6 +53,36 @@ const p = (sec: string, k: string) => get(c, sec, k)
   .cta-strip { background: var(--gray); padding: 80px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
   .cta-strip h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; }
   .cta-strip h2 em { font-style: normal; color: var(--yellow); }
+
+  @media (max-width: 768px) {
+    .phases { padding: 72px 20px; }
+    .phase { grid-template-columns: 1fr; }
+    .phase-left {
+      padding: 40px 0 16px;
+      border-right: none;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+    }
+    .phase-num { font-size: 3.5rem; margin-bottom: 0; }
+    .phase-right { padding: 0 0 40px; }
+    .phase-title { font-size: 1.6rem; }
+    .principios { padding: 72px 20px; }
+    .principios-grid { grid-template-columns: 1fr; }
+    .faq-section { padding: 72px 20px; }
+    .faq-question { cursor: pointer; }
+    .cta-strip { padding: 56px 20px; flex-direction: column; align-items: flex-start; gap: 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .phases { padding: 56px 16px; }
+    .phase-right { padding: 0 0 32px; }
+    .principios { padding: 56px 16px; }
+    .principio { padding: 32px 24px; }
+    .faq-section { padding: 56px 16px; }
+    .faq-question { font-size: 0.9rem; padding: 22px 0; }
+    .cta-strip { padding: 48px 16px; }
+  }
 </style>
 
 <section class="page-hero">
