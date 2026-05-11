@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import { getPageContent, get } from '../lib/content'
+import PageHero from '../components/PageHero.astro'
+import CTAStrip from '../components/CTAStrip.astro'
+import SectionHeader from '../components/SectionHeader.astro'
 
 const c = await getPageContent('nosotros')
 const h = (k: string) => get(c, 'historia', k)
@@ -24,6 +27,8 @@ const tl2e = FOUNDING_YEAR + 2
 const tl3s = FOUNDING_YEAR + 3
 const tl3e = FOUNDING_YEAR + 4
 const tl4 = FOUNDING_YEAR + 5
+
+const heroTitleHtml = `${get(c,'hero','title_line1') || yearsText}<br><span style="color:var(--red)">${get(c,'hero','title_line2') || 'encendiendo'}</span><br>${get(c,'hero','title_line3') || 'tecnología.'}`
 ---
 <Layout
   title={`Nosotros | OnFire Systems — ${yearsActive} Años de Tecnología Empresarial en Colombia`}
@@ -86,10 +91,6 @@ const tl4 = FOUNDING_YEAR + 5
   .n3 .num-val { color: var(--green); }
   .n4 .num-val { color: var(--blue); }
   .num-label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.08em; line-height: 1.4; }
-  .cta-strip { background: var(--black); padding: 80px 48px; border-top: 1px solid var(--gray2); display: flex; align-items: center; justify-content: space-between; gap: 40px; }
-  .cta-strip h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; }
-  .cta-strip h2 em { font-style: normal; color: var(--yellow); }
-
   @media (max-width: 768px) {
     .historia { padding: 72px 20px; grid-template-columns: 1fr; gap: 56px; }
     .historia-visual { position: static; }
@@ -106,7 +107,6 @@ const tl4 = FOUNDING_YEAR + 5
     .num-item:nth-child(2n+1) { border-right: 1px solid var(--gray2); }
     .num-item:nth-child(-n+2) { border-bottom: 1px solid var(--gray2); }
     .num-item:last-child { border-right: none; }
-    .cta-strip { padding: 56px 20px; flex-direction: column; align-items: flex-start; gap: 24px; }
   }
 
   @media (max-width: 480px) {
@@ -118,20 +118,17 @@ const tl4 = FOUNDING_YEAR + 5
     .mv-card { padding: 32px 20px; }
     .nums-section { padding: 48px 16px; }
     .num-val { font-size: 2.8rem; }
-    .cta-strip { padding: 48px 16px; }
   }
 </style>
 
-<section class="page-hero">
-  <div class="page-hero-bg"></div>
-  <div class="page-hero-accent" style="width:400px;height:400px;background:var(--yellow);top:-150px;right:50px;"></div>
-  <div class="page-hero-accent" style="width:250px;height:250px;background:var(--green);bottom:0;left:300px;"></div>
-  <div class="page-hero-content">
-    <p class="page-eyebrow" style="color:var(--yellow)">{get(c,'hero','eyebrow') || 'Quiénes somos'}</p>
-    <h1 class="page-title">{get(c,'hero','title_line1') || yearsText}<br><span style="color:var(--red)">{get(c,'hero','title_line2') || 'encendiendo'}</span><br>{get(c,'hero','title_line3') || 'tecnología.'}</h1>
-    <p class="page-subtitle">{get(c,'hero','subtitle') || 'Somos un equipo colombiano apasionado por construir soluciones tecnológicas que funcionan de verdad — no solo en papel.'}</p>
-  </div>
-</section>
+<PageHero
+  eyebrow={get(c,'hero','eyebrow') || 'Quiénes somos'}
+  eyebrowColor="var(--yellow)"
+  titleHtml={heroTitleHtml}
+  subtitle={get(c,'hero','subtitle') || 'Somos un equipo colombiano apasionado por construir soluciones tecnológicas que funcionan de verdad — no solo en papel.'}
+  accent1="width:400px;height:400px;background:var(--yellow);top:-150px;right:50px;"
+  accent2="width:250px;height:250px;background:var(--green);bottom:0;left:300px;"
+/>
 
 <div class="nums-section reveal">
   <div class="num-item n1"><div class="num-val">{get(c,'stats','years') || yearsActive}</div><div class="num-label">Años de<br>experiencia</div></div>
@@ -161,8 +158,7 @@ const tl4 = FOUNDING_YEAR + 5
 </section>
 
 <section class="mv-section">
-  <div class="section-tag reveal">Propósito</div>
-  <h2 class="section-title reveal">Lo que nos<br>mueve.</h2>
+  <SectionHeader tag="Propósito" titleHtml="Lo que nos<br>mueve." />
   <div class="mv-grid reveal">
     <div class="mv-card">
       <p class="mv-label">Misión</p>
@@ -178,8 +174,7 @@ const tl4 = FOUNDING_YEAR + 5
 </section>
 
 <section class="valores-section">
-  <div class="section-tag reveal">Cultura</div>
-  <h2 class="section-title reveal">Cómo<br>trabajamos.</h2>
+  <SectionHeader tag="Cultura" titleHtml="Cómo<br>trabajamos." />
   <div class="valores-grid reveal">
     <div class="valor-card v1"><div class="valor-accent"></div><span class="valor-icon">🎯</span><p class="valor-name">Honestidad técnica</p><p class="valor-desc">Decimos lo que es posible, lo que no es y lo que cuesta. Nunca prometemos lo que no podemos cumplir.</p></div>
     <div class="valor-card v2"><div class="valor-accent"></div><span class="valor-icon">⚡</span><p class="valor-name">Velocidad con criterio</p><p class="valor-desc">Somos ágiles, pero no descuidados. Cada decisión técnica la tomamos pensando en el largo plazo.</p></div>
@@ -190,8 +185,9 @@ const tl4 = FOUNDING_YEAR + 5
   </div>
 </section>
 
-<div class="cta-strip reveal">
-  <h2>¿Quieres trabajar<br>con un equipo <em>de verdad?</em></h2>
-  <a href="/contacto" class="btn-primary">Contáctenos →</a>
-</div>
+<CTAStrip
+  headingHtml="¿Quieres trabajar<br>con un equipo <em>de verdad?</em>"
+  buttonText="Contáctenos →"
+  variant="dark"
+/>
 </Layout>

@@ -1,9 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import { getPageContent, get } from '../lib/content'
+import PageHero from '../components/PageHero.astro'
+import CTAStrip from '../components/CTAStrip.astro'
+import SectionHeader from '../components/SectionHeader.astro'
 
 const c = await getPageContent('proceso')
 const p = (sec: string, k: string) => get(c, sec, k)
+
+const heroTitleHtml = `${p('hero','title_line1') || 'Del primer'}<br>${p('hero','title_line2') || 'café al'}<br><span style="color:var(--green)">${p('hero','title_line3') || 'resultado.'}</span>`
 ---
 <Layout
   title="Proceso de Trabajo | OnFire Systems — Metodología Ágil con Resultados Reales"
@@ -54,10 +59,6 @@ const p = (sec: string, k: string) => get(c, sec, k)
   .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.3s; }
   .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 28px; }
   .faq-answer p { font-size: 0.9rem; line-height: 1.8; color: var(--muted); max-width: 720px; }
-  .cta-strip { background: var(--gray); padding: 80px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
-  .cta-strip h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; }
-  .cta-strip h2 em { font-style: normal; color: var(--yellow); }
-
   @media (max-width: 768px) {
     .phases { padding: 72px 20px; }
     .phase { grid-template-columns: 1fr; }
@@ -75,7 +76,6 @@ const p = (sec: string, k: string) => get(c, sec, k)
     .principios-grid { grid-template-columns: 1fr; }
     .faq-section { padding: 72px 20px; }
     .faq-question { cursor: pointer; }
-    .cta-strip { padding: 56px 20px; flex-direction: column; align-items: flex-start; gap: 24px; }
   }
 
   @media (max-width: 480px) {
@@ -85,20 +85,17 @@ const p = (sec: string, k: string) => get(c, sec, k)
     .principio { padding: 32px 24px; }
     .faq-section { padding: 56px 16px; }
     .faq-question { font-size: 0.9rem; padding: 22px 0; }
-    .cta-strip { padding: 48px 16px; }
   }
 </style>
 
-<section class="page-hero">
-  <div class="page-hero-bg"></div>
-  <div class="page-hero-accent" style="width:450px;height:450px;background:var(--green);top:-180px;right:0;"></div>
-  <div class="page-hero-accent" style="width:200px;height:200px;background:var(--red);bottom:0;left:400px;"></div>
-  <div class="page-hero-content">
-    <p class="page-eyebrow" style="color:var(--green)">{p('hero','eyebrow') || 'Cómo trabajamos'}</p>
-    <h1 class="page-title">{p('hero','title_line1') || 'Del primer'}<br>{p('hero','title_line2') || 'café al'}<br><span style="color:var(--green)">{p('hero','title_line3') || 'resultado.'}</span></h1>
-    <p class="page-subtitle">{p('hero','subtitle') || 'Nuestro proceso está diseñado para eliminar incertidumbre, mantener el control en tus manos y entregar valor real en cada etapa — no solo al final.'}</p>
-  </div>
-</section>
+<PageHero
+  eyebrow={p('hero','eyebrow') || 'Cómo trabajamos'}
+  eyebrowColor="var(--green)"
+  titleHtml={heroTitleHtml}
+  subtitle={p('hero','subtitle') || 'Nuestro proceso está diseñado para eliminar incertidumbre, mantener el control en tus manos y entregar valor real en cada etapa — no solo al final.'}
+  accent1="width:450px;height:450px;background:var(--green);top:-180px;right:0;"
+  accent2="width:200px;height:200px;background:var(--red);bottom:0;left:400px;"
+/>
 
 <div class="phases">
   <div class="phase p1 reveal">
@@ -144,8 +141,7 @@ const p = (sec: string, k: string) => get(c, sec, k)
 </div>
 
 <section class="principios">
-  <div class="section-tag reveal">Cómo lo hacemos</div>
-  <h2 class="section-title reveal">Principios que<br>no negociamos.</h2>
+  <SectionHeader tag="Cómo lo hacemos" titleHtml="Principios que<br>no negociamos." />
   <div class="principios-grid reveal">
     <div class="principio"><span class="principio-icon">📋</span><div><p class="principio-title">Documentación desde el día uno</p><p class="principio-body">Todo lo que construimos queda documentado. No como formalidad, sino como herramienta real para tu equipo y para nosotros en el futuro.</p></div></div>
     <div class="principio"><span class="principio-icon">🔔</span><div><p class="principio-title">Comunicación proactiva</p><p class="principio-body">Si hay un problema, te lo decimos antes de que lo notes. Nunca recibirás noticias malas sin contexto ni solución propuesta.</p></div></div>
@@ -155,8 +151,7 @@ const p = (sec: string, k: string) => get(c, sec, k)
 </section>
 
 <section class="faq-section">
-  <div class="section-tag reveal">Preguntas frecuentes</div>
-  <h2 class="section-title reveal">Lo que siempre<br>nos preguntan.</h2>
+  <SectionHeader tag="Preguntas frecuentes" titleHtml="Lo que siempre<br>nos preguntan." />
   <div class="faq-list reveal">
     <div class="faq-item"><button class="faq-question">¿Cuánto tiempo toma un proyecto típico? <span class="faq-arrow">+</span></button><div class="faq-answer"><p>Depende del alcance. Un proyecto de infraestructura puede estar listo en 2–4 semanas. Un software a la medida de mediana complejidad toma entre 2 y 5 meses. En la propuesta siempre entregamos un cronograma detallado antes de comenzar.</p></div></div>
     <div class="faq-item"><button class="faq-question">¿Trabajan con empresas de cualquier tamaño? <span class="faq-arrow">+</span></button><div class="faq-answer"><p>Sí. Hemos trabajado con empresas de 5 personas y con organizaciones de varios cientos. Lo importante no es el tamaño sino tener un reto tecnológico real que resolver. Nos adaptamos al presupuesto y al contexto.</p></div></div>
@@ -166,10 +161,10 @@ const p = (sec: string, k: string) => get(c, sec, k)
   </div>
 </section>
 
-<div class="cta-strip reveal">
-  <h2>¿Listo para<br>arrancar el <em>proceso?</em></h2>
-  <a href="/contacto" class="btn-primary">Agendar reunión →</a>
-</div>
+<CTAStrip
+  headingHtml="¿Listo para<br>arrancar el <em>proceso?</em>"
+  buttonText="Agendar reunión →"
+/>
 
 <script>
 document.querySelectorAll('.faq-question').forEach(btn => {

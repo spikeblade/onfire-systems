@@ -7,6 +7,40 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
 
 ## [Unreleased] — develop
 
+### Componentes reutilizables — 2026-05-11
+
+### Added
+- `src/components/PageHero.astro` — hero compartido para las 4 páginas interiores (eyebrow, titleHtml, subtitle, accents)
+- `src/components/CTAStrip.astro` — franja CTA con variantes `gray` / `dark` y props para heading HTML y botón
+- `src/components/SectionHeader.astro` — par section-tag + section-title con animación reveal
+
+### Changed
+- `servicios`, `nosotros`, `proceso`, `contacto` — refactorizados para usar los nuevos componentes; eliminados bloques `.cta-strip` duplicados en estilos scoped
+- `global.css` — añadidas clases `.cta-strip--gray` y `.cta-strip--dark`
+
+---
+
+### Fixes varios — 2026-05-11
+
+### Added
+- `src/pages/404.astro` — página de error 404 con diseño consistente al sitio
+
+### Fixed
+- **`/` (index):** Stat "Años de experiencia" era `|| '7'` hardcodeado → cambiado a `|| yearsActive` para que se actualice automáticamente cada año
+- **`/api/contact`:** Campos del usuario se interpolaban sin escapar en el HTML del email → añadida función `esc()` para prevenir inyección HTML en notificaciones Resend
+- **`/` (index):** Eliminado `.section-tag` duplicado en estilos scoped (ya existía en `global.css` con valores idénticos)
+
+---
+
+### Menú móvil — 2026-05-11
+
+### Fixed
+- Menú hamburguesa se renderizaba fuera de pantalla — `backdrop-filter` en `<nav>` creaba un containing block para `position:fixed`, desplazando el overlay. Solución: clase `menu-open` que desactiva `backdrop-filter` solo cuando el menú está abierto
+- Menú sin indicador de página activa en móvil — añadido `border-left` de color por ítem activo/hover
+- Scroll horizontal forzado al abrir el menú — corregido con `overflow-x: hidden` en `html`
+
+---
+
 ### SEO — 2026-05-11
 
 ### Added

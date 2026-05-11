@@ -1,9 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import { getPageContent, get } from '../lib/content'
+import PageHero from '../components/PageHero.astro'
+import CTAStrip from '../components/CTAStrip.astro'
 
 const c = await getPageContent('servicios')
 const s = (sec: string, k: string) => get(c, sec, k)
+
+const heroTitleHtml = `${s('hero','title_line1') || 'Cinco frentes.'}<br><span style="color:var(--yellow)">${s('hero','title_line2') || 'Un solo fuego.'}</span>`
 ---
 <Layout
   title="Servicios Tecnológicos | OnFire Systems — Infraestructura, Software y Seguridad"
@@ -36,10 +40,6 @@ const s = (sec: string, k: string) => get(c, sec, k)
   .s-iot .cap-dot { background: var(--yellow); }
   .cap-text { font-size: 0.9rem; color: rgba(245,245,240,0.65); line-height: 1.5; }
   .cap-text strong { color: var(--white); font-weight: 500; display: block; margin-bottom: 2px; }
-  .cta-strip { background: var(--gray); padding: 80px 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
-  .cta-strip h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; }
-  .cta-strip h2 em { font-style: normal; color: var(--yellow); }
-
   @media (max-width: 768px) {
     .services-full { padding: 48px 20px 72px; }
     .service-block { grid-template-columns: 1fr; padding: 40px 0; }
@@ -51,26 +51,21 @@ const s = (sec: string, k: string) => get(c, sec, k)
       padding-top: 28px;
     }
     .service-heading { font-size: 1.8rem; }
-    .cta-strip { padding: 56px 20px; flex-direction: column; align-items: flex-start; gap: 24px; }
   }
 
   @media (max-width: 480px) {
     .services-full { padding: 40px 16px 56px; }
-    .cta-strip { padding: 48px 16px; }
     .service-block { padding: 32px 0; }
   }
 </style>
 
-<section class="page-hero">
-  <div class="page-hero-bg"></div>
-  <div class="page-hero-accent" style="width:500px;height:500px;background:var(--red);top:-200px;right:-100px;"></div>
-  <div class="page-hero-accent" style="width:300px;height:300px;background:var(--blue);bottom:-100px;left:200px;"></div>
-  <div class="page-hero-content">
-    <p class="page-eyebrow" style="color:var(--red)">{s('hero','eyebrow') || 'Lo que hacemos'}</p>
-    <h1 class="page-title">{s('hero','title_line1') || 'Cinco frentes.'}<br><span style="color:var(--yellow)">{s('hero','title_line2') || 'Un solo fuego.'}</span></h1>
-    <p class="page-subtitle">{s('hero','subtitle') || 'Cubrimos el ciclo completo de la tecnología empresarial: desde la red física hasta el software que mueve tu negocio, pasando por seguridad, arquitectura y espacios inteligentes.'}</p>
-  </div>
-</section>
+<PageHero
+  eyebrow={s('hero','eyebrow') || 'Lo que hacemos'}
+  titleHtml={heroTitleHtml}
+  subtitle={s('hero','subtitle') || 'Cubrimos el ciclo completo de la tecnología empresarial: desde la red física hasta el software que mueve tu negocio, pasando por seguridad, arquitectura y espacios inteligentes.'}
+  accent1="width:500px;height:500px;background:var(--red);top:-200px;right:-100px;"
+  accent2="width:300px;height:300px;background:var(--blue);bottom:-100px;left:200px;"
+/>
 
 <div class="services-full">
   <div class="service-block s-infra reveal">
@@ -163,8 +158,8 @@ const s = (sec: string, k: string) => get(c, sec, k)
   </div>
 </div>
 
-<div class="cta-strip reveal">
-  <h2>¿Cuál de estos frentes<br>necesita tu <em>empresa hoy?</em></h2>
-  <a href="/contacto" class="btn-primary">Hablemos →</a>
-</div>
+<CTAStrip
+  headingHtml="¿Cuál de estos frentes<br>necesita tu <em>empresa hoy?</em>"
+  buttonText="Hablemos →"
+/>
 </Layout>

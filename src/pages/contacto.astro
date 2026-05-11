@@ -1,9 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import { getPageContent, get } from '../lib/content'
+import PageHero from '../components/PageHero.astro'
 
 const c = await getPageContent('contacto')
 const info = (k: string) => get(c, 'info', k)
+
+const heroTitleHtml = `${get(c,'hero','title_line1') || 'Cuéntanos'}<br>tu <span style="color:var(--yellow)">${get(c,'hero','title_line2') || 'reto.'}</span>`
 ---
 <Layout
   title="Contáctenos | OnFire Systems — Hablemos de tu Proyecto Tecnológico"
@@ -89,16 +92,14 @@ const info = (k: string) => get(c, 'info', k)
   }
 </style>
 
-<section class="page-hero">
-  <div class="page-hero-bg"></div>
-  <div class="page-hero-accent" style="width:350px;height:350px;background:var(--blue);top:-120px;right:100px;"></div>
-  <div class="page-hero-accent" style="width:200px;height:200px;background:var(--yellow);bottom:0;left:500px;"></div>
-  <div class="page-hero-content">
-    <p class="page-eyebrow" style="color:var(--blue)">{get(c,'hero','eyebrow') || 'Hablemos'}</p>
-    <h1 class="page-title">{get(c,'hero','title_line1') || 'Cuéntanos'}<br>tu <span style="color:var(--yellow)">{get(c,'hero','title_line2') || 'reto.'}</span></h1>
-    <p class="page-subtitle">{get(c,'hero','subtitle') || 'Sin compromiso. Una conversación de 30 minutos puede ser el punto de partida de una solución que cambie la forma en que opera tu empresa.'}</p>
-  </div>
-</section>
+<PageHero
+  eyebrow={get(c,'hero','eyebrow') || 'Hablemos'}
+  eyebrowColor="var(--blue)"
+  titleHtml={heroTitleHtml}
+  subtitle={get(c,'hero','subtitle') || 'Sin compromiso. Una conversación de 30 minutos puede ser el punto de partida de una solución que cambie la forma en que opera tu empresa.'}
+  accent1="width:350px;height:350px;background:var(--blue);top:-120px;right:100px;"
+  accent2="width:200px;height:200px;background:var(--yellow);bottom:0;left:500px;"
+/>
 
 <div class="contact-main">
   <div class="contact-info reveal">
