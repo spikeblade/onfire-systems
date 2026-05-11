@@ -75,8 +75,6 @@ const yearsActive = new Date().getFullYear() - 2019
   /* Services */
   .section { padding: 120px 48px; }
   .section-header { margin-bottom: 80px; }
-  .section-tag { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-  .section-tag::before { content: ''; width: 24px; height: 1px; background: currentColor; }
   .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
   .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
   .service-card { background: var(--gray); padding: 52px 40px; position: relative; overflow: hidden; transition: background 0.3s; }
@@ -216,7 +214,7 @@ const yearsActive = new Date().getFullYear() - 2019
       <p class="hero-desc">{h('description') || 'Construimos infraestructura robusta, arquitecturas escalables y software a la medida para empresas que no aceptan límites.'}</p>
       <div class="hero-stats">
         <div class="stat">
-          <div class="stat-num y">{h('stat_years') || '7'}</div>
+          <div class="stat-num y">{h('stat_years') || yearsActive}</div>
           <div class="stat-label">Años de experiencia</div>
         </div>
         <div class="stat">
