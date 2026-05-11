@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@astrojs/netlify": "^5.5.0",
@@ -15,6 +18,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "typescript": "^5.9.3"
+    "@vitest/coverage-v8": "^4.1.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.6"
   }
 }
