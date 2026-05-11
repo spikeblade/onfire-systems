@@ -10,7 +10,7 @@ interface Props {
 
 const {
   title,
-  description = 'OnFire Systems — Infraestructura robusta, arquitectura escalable y software a la medida para empresas colombianas. 7 años construyendo tecnología que no se detiene.',
+  description = `OnFire Systems — Infraestructura robusta, arquitectura escalable y software a la medida para empresas colombianas. ${new Date().getFullYear() - 2019} años construyendo tecnología que no se detiene.`,
   ogImage = '/og-default.svg',
   page
 } = Astro.props
@@ -18,6 +18,8 @@ const {
 const SITE = 'https://onfiresystems.co'
 const canonicalURL = new URL(Astro.url.pathname, SITE)
 const ogImageURL = new URL(ogImage, SITE)
+const currentYear = new Date().getFullYear()
+const yearsActive = currentYear - 2019
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -29,7 +31,7 @@ const jsonLd = JSON.stringify({
       "url": SITE,
       "logo": `${SITE}/favicon.svg`,
       "description": "Empresa colombiana de tecnología especializada en infraestructura, seguridad de redes, arquitectura de software, desarrollo a la medida y domótica IoT.",
-      "foundingDate": "2018",
+      "foundingDate": "2019",
       "areaServed": "CO",
       "address": {
         "@type": "PostalAddress",
@@ -126,22 +128,22 @@ const jsonLd = JSON.stringify({
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
       <span></span><span></span><span></span>
     </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="/servicios" class={page === 'servicios' ? 'active' : ''}>Servicios</a></li>
-      <li><a href="/nosotros" class={page === 'nosotros' ? 'active' : ''}>Nosotros</a></li>
-      <li><a href="/proceso" class={page === 'proceso' ? 'active' : ''}>Proceso</a></li>
-      <li><a href="/contacto" class={`nav-cta${page === 'contacto' ? ' active' : ''}`}>Contáctenos</a></li>
-    </ul>
   </nav>
+  <!-- nav-links fuera del <nav> para evitar que backdrop-filter cree
+       un containing block que rompe position:fixed en móvil -->
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/servicios" class={page === 'servicios' ? 'active' : ''}>Servicios</a></li>
+    <li><a href="/nosotros" class={page === 'nosotros' ? 'active' : ''}>Nosotros</a></li>
+    <li><a href="/proceso" class={page === 'proceso' ? 'active' : ''}>Proceso</a></li>
+    <li><a href="/contacto" class={`nav-cta${page === 'contacto' ? ' active' : ''}`}>Contáctenos</a></li>
+  </ul>
 
   <slot />
 
   <footer>
-    <p class="footer-copy">© 2025 OnFire Systems — 7 años construyendo tecnología. Todos los derechos reservados.</p>
+    <p class="footer-copy">© {currentYear} OnFire Systems — {yearsActive} años construyendo tecnología. Todos los derechos reservados.</p>
     <div class="footer-links">
       <a href="/" class={page === 'home' ? 'active' : ''}>Inicio</a>
-      <a href="#" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="#" target="_blank" rel="noopener">GitHub</a>
     </div>
   </footer>
 

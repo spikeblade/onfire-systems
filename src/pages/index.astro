@@ -6,10 +6,11 @@ const c = await getPageContent('home')
 const h = (k: string) => get(c, 'hero', k)
 const cta = (k: string) => get(c, 'cta', k)
 const why = (k: string) => get(c, 'why', k)
+const yearsActive = new Date().getFullYear() - 2019
 ---
 <Layout
   title="OnFire Systems | Infraestructura, Arquitectura y Software para Empresas"
-  description="Construimos infraestructura robusta, arquitecturas escalables y software a la medida para empresas que no aceptan límites. 7 años de experiencia tecnológica en Colombia."
+  description={`Construimos infraestructura robusta, arquitecturas escalables y software a la medida para empresas que no aceptan límites. ${yearsActive} años de experiencia tecnológica en Colombia.`}
   page="home"
 >
 <style>
