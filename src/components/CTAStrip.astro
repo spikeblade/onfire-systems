@@ -1,0 +1,13 @@
+---
+interface Props {
+  headingHtml: string
+  buttonText?: string
+  buttonHref?: string
+  variant?: 'gray' | 'dark'
+}
+const { headingHtml, buttonText = 'Hablemos →', buttonHref = '/contacto', variant = 'gray' } = Astro.props
+---
+<div class={`cta-strip reveal cta-strip--${variant}`}>
+  <h2 set:html={headingHtml}></h2>
+  <a href={buttonHref} class="btn-primary">{buttonText}</a>
+</div>

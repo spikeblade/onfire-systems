@@ -1,0 +1,9 @@
+---
+interface Props {
+  tag: string
+  titleHtml: string
+}
+const { tag, titleHtml } = Astro.props
+---
+<div class="section-tag reveal">{tag}</div>
+<h2 class="section-title reveal" set:html={titleHtml}></h2>

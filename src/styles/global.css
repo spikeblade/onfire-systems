@@ -158,6 +158,8 @@ nav {
   font-weight: 800; letter-spacing: -0.02em;
 }
 .cta-strip h2 em { font-style: normal; color: var(--yellow); }
+.cta-strip--gray { background: var(--gray); }
+.cta-strip--dark { background: var(--black); border-top: 1px solid var(--gray2); }
 
 /* Footer */
 footer {

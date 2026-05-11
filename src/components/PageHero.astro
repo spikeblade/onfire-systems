@@ -1,0 +1,29 @@
+---
+interface Props {
+  eyebrow: string
+  eyebrowColor?: string
+  titleHtml: string
+  subtitle: string
+  accent1?: string
+  accent2?: string
+}
+
+const {
+  eyebrow,
+  eyebrowColor = 'var(--red)',
+  titleHtml,
+  subtitle,
+  accent1,
+  accent2,
+} = Astro.props
+---
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  {accent1 && <div class="page-hero-accent" style={accent1}></div>}
+  {accent2 && <div class="page-hero-accent" style={accent2}></div>}
+  <div class="page-hero-content">
+    <p class="page-eyebrow" style={`color:${eyebrowColor}`}>{eyebrow}</p>
+    <h1 class="page-title" set:html={titleHtml} />
+    <p class="page-subtitle">{subtitle}</p>
+  </div>
+</section>
