@@ -128,13 +128,15 @@ const jsonLd = JSON.stringify({
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
       <span></span><span></span><span></span>
     </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="/servicios" class={page === 'servicios' ? 'active' : ''}>Servicios</a></li>
-      <li><a href="/nosotros" class={page === 'nosotros' ? 'active' : ''}>Nosotros</a></li>
-      <li><a href="/proceso" class={page === 'proceso' ? 'active' : ''}>Proceso</a></li>
-      <li><a href="/contacto" class={`nav-cta${page === 'contacto' ? ' active' : ''}`}>Contáctenos</a></li>
-    </ul>
   </nav>
+  <!-- nav-links fuera del <nav> para evitar que backdrop-filter cree
+       un containing block que rompe position:fixed en móvil -->
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/servicios" class={page === 'servicios' ? 'active' : ''}>Servicios</a></li>
+    <li><a href="/nosotros" class={page === 'nosotros' ? 'active' : ''}>Nosotros</a></li>
+    <li><a href="/proceso" class={page === 'proceso' ? 'active' : ''}>Proceso</a></li>
+    <li><a href="/contacto" class={`nav-cta${page === 'contacto' ? ' active' : ''}`}>Contáctenos</a></li>
+  </ul>
 
   <slot />
 
