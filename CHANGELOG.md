@@ -7,6 +7,23 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/).
 
 ## [Unreleased] — develop
 
+### SEO — 2026-05-11
+
+### Added
+- `public/og-default.svg` — imagen OG branded 1200×630 (elimina referencia rota a `og-default.jpg`)
+- `src/pages/sitemap.xml.ts` — sitemap dinámico: `lastmod` siempre muestra la fecha actual
+- Meta `geo.region` y `geo.placename` para targeting Colombia
+- Meta `robots` ampliado con `max-snippet:-1` y `max-video-preview:-1`
+
+### Fixed
+- Google Fonts movido de `@import` CSS (render-blocking) a `<link rel="preconnect">` en el `<head>` — mejora LCP/Core Web Vitals
+- Schema.org `logo` apuntaba a `logo.png` (no existía) → corregido a `favicon.svg`
+- `public/sitemap.xml` estático con fechas de mayo 2025 → reemplazado por endpoint dinámico
+
+---
+
+### Responsive & Timeline — 2026-05-11
+
 ### Fixed
 - **`/` (index):** Título hero recortado en móvil y desktop — el `font-size` máximo de `9rem` hacía que "que encienden" desbordara el contenedor de 1100px y quedara cortado por el `overflow: hidden` de la animación. Reducido a `clamp(3.5rem, 8vw, 7rem)`.
 - **`/` (index):** Responsive móvil del hero — añadidos overrides para `≤768px` (`clamp(2.5rem, 11vw, 5rem)`) y `≤480px` (`clamp(2rem, 10vw, 3rem)`).
