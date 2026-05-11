@@ -45,7 +45,7 @@ const why = (k: string) => get(c, 'why', k)
   .hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--blue); }
   .hero-title {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(4rem, 10vw, 9rem);
+    font-size: clamp(3.5rem, 8vw, 7rem);
     font-weight: 800; line-height: 0.9; letter-spacing: -0.03em;
     margin-bottom: 32px;
   }
@@ -158,6 +158,7 @@ const why = (k: string) => get(c, 'why', k)
 
   @media (max-width: 768px) {
     .hero { padding: 0 20px 64px; }
+    .hero-title { font-size: clamp(2.5rem, 11vw, 5rem); line-height: 1; }
     .hero-sub { flex-direction: column; gap: 32px; }
     .scroll-hint { display: none; }
     .section { padding: 72px 20px; }
@@ -183,6 +184,7 @@ const why = (k: string) => get(c, 'why', k)
 
   @media (max-width: 480px) {
     .hero { padding: 0 16px 48px; }
+    .hero-title { font-size: clamp(2rem, 10vw, 3rem); line-height: 1.05; }
     .hero-stats { gap: 28px; }
     .section { padding: 56px 16px; }
     .why-section { padding: 56px 16px; }

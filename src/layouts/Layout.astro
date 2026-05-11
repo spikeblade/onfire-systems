@@ -11,7 +11,7 @@ interface Props {
 const {
   title,
   description = 'OnFire Systems — Infraestructura robusta, arquitectura escalable y software a la medida para empresas colombianas. 7 años construyendo tecnología que no se detiene.',
-  ogImage = '/og-default.jpg',
+  ogImage = '/og-default.svg',
   page
 } = Astro.props
 
@@ -27,7 +27,7 @@ const jsonLd = JSON.stringify({
       "@id": `${SITE}/#organization`,
       "name": "OnFire Systems",
       "url": SITE,
-      "logo": `${SITE}/logo.png`,
+      "logo": `${SITE}/favicon.svg`,
       "description": "Empresa colombiana de tecnología especializada en infraestructura, seguridad de redes, arquitectura de software, desarrollo a la medida y domótica IoT.",
       "foundingDate": "2018",
       "areaServed": "CO",
@@ -72,9 +72,14 @@ const jsonLd = JSON.stringify({
   <!-- Primary SEO -->
   <title>{title}</title>
   <meta name="description" content={description} />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <meta name="author" content="OnFire Systems" />
   <link rel="canonical" href={canonicalURL.href} />
+
+  <!-- Geo targeting Colombia -->
+  <meta name="geo.region" content="CO" />
+  <meta name="geo.placename" content="Colombia" />
+  <meta name="language" content="Spanish" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -96,7 +101,11 @@ const jsonLd = JSON.stringify({
 
   <!-- Favicons -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+  <!-- Google Fonts — preconnect primero, luego la hoja de estilos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" />
 
   <!-- Structured Data -->
   <script type="application/ld+json" set:html={jsonLd} />
