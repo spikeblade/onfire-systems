@@ -5,10 +5,29 @@ import { getPageContent, get } from '../lib/content'
 const c = await getPageContent('nosotros')
 const h = (k: string) => get(c, 'historia', k)
 const mv = (k: string) => get(c, 'mv', k)
+
+const FOUNDING_YEAR = 2019
+const currentYear = new Date().getFullYear()
+const yearsActive = currentYear - FOUNDING_YEAR
+
+const yearWords: Record<number, string> = {
+  1:'Un año',2:'Dos años',3:'Tres años',4:'Cuatro años',5:'Cinco años',
+  6:'Seis años',7:'Siete años',8:'Ocho años',9:'Nueve años',10:'Diez años',
+  11:'Once años',12:'Doce años',13:'Trece años',14:'Catorce años',15:'Quince años'
+}
+const yearsText = yearWords[yearsActive] ?? `${yearsActive} años`
+
+// Timeline absolute years
+const tl1 = FOUNDING_YEAR
+const tl2s = FOUNDING_YEAR + 1
+const tl2e = FOUNDING_YEAR + 2
+const tl3s = FOUNDING_YEAR + 3
+const tl3e = FOUNDING_YEAR + 4
+const tl4 = FOUNDING_YEAR + 5
 ---
 <Layout
-  title="Nosotros | OnFire Systems — 7 Años de Tecnología Empresarial en Colombia"
-  description="Conoce OnFire Systems: equipo colombiano con 7 años construyendo infraestructura, software a la medida, seguridad de redes y domótica para empresas reales."
+  title={`Nosotros | OnFire Systems — ${yearsActive} Años de Tecnología Empresarial en Colombia`}
+  description={`Conoce OnFire Systems: equipo colombiano con ${yearsActive} años construyendo infraestructura, software a la medida, seguridad de redes y domótica para empresas reales.`}
   page="nosotros"
 >
 <style>
@@ -109,13 +128,13 @@ const mv = (k: string) => get(c, 'mv', k)
   <div class="page-hero-accent" style="width:250px;height:250px;background:var(--green);bottom:0;left:300px;"></div>
   <div class="page-hero-content">
     <p class="page-eyebrow" style="color:var(--yellow)">{get(c,'hero','eyebrow') || 'Quiénes somos'}</p>
-    <h1 class="page-title">{get(c,'hero','title_line1') || 'Siete años'}<br><span style="color:var(--red)">{get(c,'hero','title_line2') || 'encendiendo'}</span><br>{get(c,'hero','title_line3') || 'tecnología.'}</h1>
+    <h1 class="page-title">{get(c,'hero','title_line1') || yearsText}<br><span style="color:var(--red)">{get(c,'hero','title_line2') || 'encendiendo'}</span><br>{get(c,'hero','title_line3') || 'tecnología.'}</h1>
     <p class="page-subtitle">{get(c,'hero','subtitle') || 'Somos un equipo colombiano apasionado por construir soluciones tecnológicas que funcionan de verdad — no solo en papel.'}</p>
   </div>
 </section>
 
 <div class="nums-section reveal">
-  <div class="num-item n1"><div class="num-val">{get(c,'stats','years') || '7'}</div><div class="num-label">Años de<br>experiencia</div></div>
+  <div class="num-item n1"><div class="num-val">{get(c,'stats','years') || yearsActive}</div><div class="num-label">Años de<br>experiencia</div></div>
   <div class="num-item n2"><div class="num-val">{get(c,'stats','services') || '5'}</div><div class="num-label">Líneas de<br>servicio</div></div>
   <div class="num-item n3"><div class="num-val">{get(c,'stats','uptime') || '99.9%'}</div><div class="num-label">Uptime<br>promedio</div></div>
   <div class="num-item n4"><div class="num-val">{get(c,'stats','commitment') || '∞'}</div><div class="num-label">Compromiso<br>posventa</div></div>
@@ -132,11 +151,11 @@ const mv = (k: string) => get(c, 'mv', k)
   <div class="historia-visual reveal">
     <div class="section-tag">Línea de tiempo</div><br>
     <div class="timeline">
-      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 1 — 2018</p><p class="tl-title">Los primeros proyectos</p><p class="tl-body">Infraestructura y redes para pequeñas empresas. Configuración de servidores, cableado estructurado y soporte técnico local.</p></div>
-      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 2-3 — 2019–2020</p><p class="tl-title">Seguridad y crecimiento</p><p class="tl-body">Incorporamos seguridad perimetral, directorios activos y los primeros centros de datos de pequeña escala.</p></div>
-      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 4-5 — 2021–2022</p><p class="tl-title">Software a la medida</p><p class="tl-body">Ampliamos hacia el desarrollo de software y arquitectura de sistemas, respondiendo a la demanda de clientes que ya confiaban en nuestra infraestructura.</p></div>
-      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 6 — 2023</p><p class="tl-title">Domótica &amp; IoT</p><p class="tl-body">Primeros proyectos de automatización residencial y corporativa. Un mercado nuevo que adoptamos con metodología probada.</p></div>
-      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">HOY — 2025</p><p class="tl-title">Cinco frentes activos</p><p class="tl-body">Un equipo consolidado cubriendo el ciclo completo de tecnología empresarial, con clientes en diferentes sectores de Colombia.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 1 — {tl1}</p><p class="tl-title">Los primeros proyectos</p><p class="tl-body">Infraestructura y redes para pequeñas empresas. Configuración de servidores, cableado estructurado y soporte técnico local.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 2-3 — {tl2s}–{tl2e}</p><p class="tl-title">Seguridad y crecimiento</p><p class="tl-body">Incorporamos seguridad perimetral, directorios activos y los primeros centros de datos de pequeña escala.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 4-5 — {tl3s}–{tl3e}</p><p class="tl-title">Software a la medida</p><p class="tl-body">Ampliamos hacia el desarrollo de software y arquitectura de sistemas, respondiendo a la demanda de clientes que ya confiaban en nuestra infraestructura.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">AÑO 6 — {tl4}</p><p class="tl-title">Domótica &amp; IoT</p><p class="tl-body">Primeros proyectos de automatización residencial y corporativa. Un mercado nuevo que adoptamos con metodología probada.</p></div>
+      <div class="tl-item"><div class="tl-dot"></div><p class="tl-year">HOY — {currentYear}</p><p class="tl-title">Cinco frentes activos</p><p class="tl-body">Un equipo consolidado cubriendo el ciclo completo de tecnología empresarial, con clientes en diferentes sectores de Colombia.</p></div>
     </div>
   </div>
 </section>
