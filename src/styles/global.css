@@ -116,7 +116,7 @@ nav {
 .page-title {
   font-family: 'Syne', sans-serif;
   font-size: clamp(3.5rem, 8vw, 7.5rem);
-  font-weight: 800; line-height: 0.92; letter-spacing: -0.03em;
+  font-weight: 800; line-height: 1; letter-spacing: -0.03em;
   opacity: 0; animation: fadeUp 0.8s 0.25s forwards;
 }
 .page-subtitle {
